@@ -1,4 +1,28 @@
-baseURL = "http://example.org/"
+baseURL = "/"
 languageCode = "en-us"
-title = "My New Hugo Site"
-theme = "ananke"
+title = "Felix Klein"
+theme = "terminal"
+
+paginate = 5
+
+[params]
+  themeColor = "orange"
+  showMenuItems = 2
+  showLanguageSelector = false
+  fullWidthTheme = false
+  centerTheme = false
+  # favicon = "favicon.ico"
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    title = "Felix Klein"
+    subtitle = "Felix Klein's Website"
+    keywords = "abc"
+    copyright = "(c) 2019 Felix Klein"
+    menuMore = "Show more"
+    readMore = "Read more"
+
+    [languages.en.params.logo]
+      logoText = "Felix Klein"
+      logoHomeLink = "/"

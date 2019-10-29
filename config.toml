@@ -17,7 +17,6 @@ paginate = 5
   [languages.en]
     languageName = "English"
     title = "Felix Klein"
-    subtitle = "Felix Klein's Website"
     keywords = "abc"
     copyright = "(c) 2019 Felix Klein"
     menuMore = "Show more"

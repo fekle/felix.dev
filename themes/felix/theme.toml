@@ -1,0 +1,12 @@
+name = "felix"
+license = "UNLICENSED"
+licenselink = ""
+description = ""
+homepage = "https://felix.dev/"
+tags = []
+features = []
+min_version = "0.59"
+
+[author]
+  name = "Felix Klein"
+  homepage = "https://felix.dev"

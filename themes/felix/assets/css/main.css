@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$bg-dark: #212121;
+$bg-light: #aaa;
+
+html {
+  @apply text-gray-100 antialiased leading-tight font-mono font-normal;
+}
+
+body {
+  @apply min-h-screen px-32;
+  background-color: $bg-dark;
+  font-size: 12pt;
+}
+
+/* homepage-content */
+div.homepage-content {
+    @apply py-4 font-mono text-gray-400;
+}
+
+h1 {
+  @apply text-3xl my-8 text-gray-100;
+}
+
+h2 {
+  @apply text-2xl my-6 text-gray-100;
+}
+
+h3 {
+  @apply text-xl font-semibold my-4 text-gray-100;
+}
+
+h4 {
+  @apply text-lg font-bold text-gray-100;
+}
+
+a {
+  @apply text-blue-600 underline;
+}
+
+b,
+strong {
+  @apply font-semibold;
+}
+
+hr {
+  @apply my-8 border-dashed border-2 border-gray-700;
+}
+
+blockquote {
+  @apply pl-2;
+}
+
+/* timeline */
+
+div.timeline {
+  ol {
+    & > li {
+      position: relative;
+      padding-bottom: 1em;
+      padding-left: 1.5em;
+      margin: 0 0 0.25em;
+
+      // add a timeline to the left of the item
+      &:before {
+        background-color: #fb8c00;
+        content: "";
+        position: absolute;
+        bottom: -0.75em;
+        top: 0.5em;
+        left: 0.1em;
+        width: 0.5em;
+        z-index: -1; // this is at the very bottom
+      }
+
+      // add a bullet inside the tiemeline
+      &:after {
+        content: "";
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' viewBox='0 0 128 128' focusable='false'><circle stroke='none' fill='#FB8C00' cx='64' cy='64' r='64'></circle></svg>");
+        position: absolute;
+        left: 0;
+        top: 0.375em;
+        height: 0.7em;
+        width: 0.7em;
+      }
+
+      // fade out the timeline after the last item
+      &:last-child:before {
+        background-color: #111;
+        background-image: linear-gradient(to bottom, #fb8c00, #fb8c00, #111);
+      }
+
+      // the title of a timeline item is marked with ** in markdown
+      & > strong {
+        @apply inline-block text-gray-900;
+
+        position: relative;
+        font-size: 1em;
+        font-weight: bold;
+        background-color: #ffb300;
+        padding: 0.1em 1em 0.1em 1.5em;
+        margin: 0 0 0.5em -1.9em;
+
+        border-radius: 1em;
+      }
+
+      // list items in the child are displayed as small items on the timeline
+      & > ul,
+      ol {
+        list-style-type: none;
+
+        & > li {
+          position: relative;
+
+          // add a small link to the timeline on the left
+          &:before {
+            content: "";
+            position: absolute;
+            left: -0.9em;
+            top: 0.5em;
+            height: 0.25em;
+            width: 0.5em;
+            z-index: 99;
+            background-color: #fb8c00;
+            border-bottom-right-radius: 0.5em;
+            border-top-right-radius: 0.5em;
+          }
+        }
+      }
+    }
+  }
+}

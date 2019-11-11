@@ -1,8 +1,8 @@
+publishDir = "dist"
 baseURL = "/"
 languageCode = "en-us"
 title = "Felix Klein"
-theme = "terminal"
-
+theme = "felix"
 paginate = 5
 
 [params]

@@ -23,7 +23,7 @@ build-prod: clean
 fmt:
 	prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'
 
-docker-build: build-prod
+docker-build: clean
 	docker build -t $(DOCKER_NAME) .
 
 docker-push:

@@ -6,6 +6,8 @@ all: build-prod
 
 clean:
 	rm -rf ./dist
+	rm -rf ./resources/_gen
+	rm -rf ./themes/felix/resources/_gen
 
 watch: clean
 	hugo server --cleanDestinationDir --verbose --watch

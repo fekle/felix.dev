@@ -27,11 +27,3 @@ docker-build:
 
 docker-push:
 	docker push $(DOCKER_NAME)
-
-kube-dev: dist
-	docker build -q -t $(DEV_IMAGE) -t $(DEV_IMAGE_LATEST) ./
-	docker push $(DEV_IMAGE)
-	docker push $(DEV_IMAGE_LATEST)
-	sleep 0.25
-	microk8s.kubectl -n dev set image --record deployments -l dm-image=web web=$(DEV_IMAGE)
-

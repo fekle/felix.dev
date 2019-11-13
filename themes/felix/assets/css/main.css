@@ -10,14 +10,14 @@ html {
 }
 
 body {
-  @apply min-h-screen px-32;
+  @apply min-h-screen;
   background-color: $bg-dark;
   font-size: 12pt;
 }
 
 /* homepage-content */
 div.homepage-content {
-    @apply py-4 font-mono text-gray-400;
+  @apply font-mono text-gray-400;
 }
 
 h1 {

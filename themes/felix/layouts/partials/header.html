@@ -1,1 +1,38 @@
-<h1>felix.dev</h1>
+<nav class="bg-grey-darkest p-2 mt-0 w-full">
+    <div class="container mx-auto flex flex-wrap items-center">
+        <div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
+            <a class="text-white no-underline hover:text-white hover:no-underline" href="#">
+                <span class="text-2xl pl-2">felix.dev</span>
+            </a>
+        </div>
+        <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
+            <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
+                {{ $currentPage := . }}
+                {{ range .Site.Menus.main }}
+                    {{ if .HasChildren }}
+                        <li class="{{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}">
+                            <a href="#">
+                                {{ .Pre }}
+                                <span>{{ .Name }}</span>
+                            </a>
+                        </li>
+                        <ul class="sub-menu">
+                            {{ range .Children }}
+                                <li class="{{ if $currentPage.IsMenuCurrent " main" . }}active{{ end }}">
+                                    <a href="{{ .URL }}">{{ .Name }}</a>
+                                </li>
+                            {{ end }}
+                        </ul>
+                    {{ else }}
+                        <li>
+                            <a href="{{ .URL }}">
+                                {{ .Pre }}
+                                <span>{{ .Name }}</span>
+                            </a>
+                        </li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        </div>
+    </div>
+</nav>

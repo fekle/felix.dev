@@ -1,6 +1,8 @@
 DIST_DIR=dist
 .PHONY: *
 
+export PATH := /home/linuxbrew/.linuxbrew/bin:$(PATH)
+
 clean:
 	rm -rf ./dist
 
@@ -14,3 +16,6 @@ build-dev: clean
 
 build-prod: clean
 	hugo --cleanDestinationDir --minify
+
+fmt:
+	prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'

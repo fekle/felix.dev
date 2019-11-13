@@ -1,4 +1,4 @@
 {{ $css := resources.Get "css/main.css" }}
 {{ $style := $css | resources.PostCSS | resources.Minify | resources.Fingerprint }}
 
-<link rel="stylesheet" href="{{ $style.Permalink }}" emotion="🤩">
+<link rel="stylesheet" href="{{ $style.Permalink }}" emotion="🤩" />

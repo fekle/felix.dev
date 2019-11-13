@@ -1,23 +1,13 @@
-publishDir = "dist"
-baseURL = "/"
-languageCode = "en-us"
 title = "Felix Klein"
 theme = "felix"
-paginate = 5
-
-[params]
-  themeColor = "orange"
-  showMenuItems = 2
-  showLanguageSelector = false
-  fullWidthTheme = false
-  centerTheme = false
-  # favicon = "favicon.ico"
+paginate = 3
+publishDir = "dist"
 
 [languages]
   [languages.en]
     languageName = "English"
     title = "Felix Klein"
-    keywords = "abc"
+    keywords = ""
     copyright = "(c) 2019 Felix Klein"
     menuMore = "Show more"
     readMore = "Read more"

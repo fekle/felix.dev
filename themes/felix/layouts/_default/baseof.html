@@ -3,8 +3,10 @@
 {{- partial "head.html" . -}}
 <body>
 {{- partial "header.html" . -}}
-<div class="container mx-auto" id="content">
-    {{- block "main" . }}{{- end }}
+<div class="container mx-auto flex flex-col flex-center justify-center" id="content_container">
+    <div class="flex-initial" id="content">
+        {{- block "main" . }}{{- end }}
+    </div>
 </div>
 {{- partial "footer.html" . -}}
 </body>

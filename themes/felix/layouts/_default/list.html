@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-{{- partial "head.html" . -}}
-<body>
-{{- partial "header.html" . -}}
-<div class="container mx-auto" id="content">
-    {{.Content}}
-</div>
-{{- partial "footer.html" . -}}
-</body>
-</html>
+{{ define "main" }}
+    <h1>Posts</h1>
+    {{ range .Pages }}
+        {{ if ne .Params.hidden true }}
+            <article>
+                <h2>{{ .Title }}</h2>
+            </article>
+        {{ end }}
+    {{ end }}
+{{ end }}

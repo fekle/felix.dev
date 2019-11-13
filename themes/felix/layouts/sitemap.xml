@@ -1,6 +1,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     {{ range .Data.Pages }}
-        {{ if ne .Params.sitemap_exclude true }}
+        {{ if ne .Params.hidden true }}
             <url>
                 <loc>{{ .Permalink }}</loc>
                 {{ if not .Lastmod.IsZero }}

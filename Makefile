@@ -6,8 +6,7 @@ all: build-prod
 
 clean:
 	rm -rf ./dist
-	rm -rf ./resources/_gen
-	rm -rf ./themes/felix/resources/_gen
+	find . -type d -name '_gen' -print0 | xargs -0 rm -rf
 
 watch: clean
 	hugo server --cleanDestinationDir --verbose --watch
@@ -23,7 +22,7 @@ build-prod: clean
 fmt:
 	prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'
 
-docker-build: clean
+docker-build:
 	docker build -t $(DOCKER_NAME) .
 
 docker-push:

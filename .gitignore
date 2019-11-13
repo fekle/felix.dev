@@ -1,4 +1,4 @@
-./dist
+dist
 _gen
 
 # Created by https://www.gitignore.io/api/go,node,linux,macos,windows,jetbrains,visualstudiocode,hugo

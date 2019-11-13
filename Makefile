@@ -14,7 +14,7 @@ watch: clean
 build: build-dev
 
 build-dev: clean
-	hugo --cleanDestinationDir
+	env NODE_ENV=development hugo --cleanDestinationDir
 
 build-prod: clean
 	env NODE_ENV=production hugo --cleanDestinationDir --minify

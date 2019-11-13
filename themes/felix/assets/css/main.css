@@ -2,42 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-$bg-dark: #212121;
-$bg-light: #aaa;
-
 html {
-  @apply text-gray-100 antialiased leading-tight font-mono font-normal;
+  @apply bg-black text-white antialiased leading-tight font-mono font-normal;
 }
 
 body {
-  @apply min-h-screen;
-  background-color: $bg-dark;
+  @apply min-h-screen h-full flex flex-col items-stretch justify-center;
+  background-color: theme("colors.grey-900");
   font-size: 12pt;
+  position: relative;
 }
 
 /* homepage-content */
 div.homepage-content {
-  @apply font-mono text-gray-400;
+  @apply font-mono;
 }
 
 h1 {
-  @apply text-3xl my-8 text-gray-100;
+  @apply text-3xl my-8;
 }
 
 h2 {
-  @apply text-2xl my-6 text-gray-100;
+  @apply text-2xl my-6;
 }
 
 h3 {
-  @apply text-xl font-semibold my-4 text-gray-100;
+  @apply text-xl font-semibold my-4;
 }
 
 h4 {
-  @apply text-lg font-bold text-gray-100;
-}
-
-a {
-  @apply text-blue-600 underline;
+  @apply text-lg font-bold;
 }
 
 b,
@@ -46,17 +40,24 @@ strong {
 }
 
 hr {
-  @apply my-8 border-dashed border-2 border-gray-700;
+  @apply my-8 border-dashed border-2 border-grey-700;
 }
 
 blockquote {
-  @apply pl-2;
+  @apply pl-2 mb-4;
+}
+
+section.section {
+  @apply my-8;
 }
 
 /* timeline */
 
 div.timeline {
-  ol {
+  @apply w-full h-auto mt-2;
+
+  & > ol,
+  & > ul {
     & > li {
       position: relative;
       padding-bottom: 1em;
@@ -64,21 +65,25 @@ div.timeline {
       margin: 0 0 0.25em;
 
       // add a timeline to the left of the item
+
       &:before {
-        background-color: #fb8c00;
+        background-color: theme("colors.secondary");
         content: "";
         position: absolute;
         bottom: -0.75em;
         top: 0.5em;
         left: 0.1em;
         width: 0.5em;
-        z-index: -1; // this is at the very bottom
+        z-index: 0;
+        // this is at the very bottom
       }
 
       // add a bullet inside the tiemeline
+
       &:after {
         content: "";
-        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' viewBox='0 0 128 128' focusable='false'><circle stroke='none' fill='#FB8C00' cx='64' cy='64' r='64'></circle></svg>");
+        $col_secondary: theme("colors.secondary");
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' viewBox='0 0 128 128' focusable='false'><circle stroke='none' fill='$col_secondary' cx='64' cy='64' r='64'></circle></svg>");
         position: absolute;
         left: 0;
         top: 0.375em;
@@ -87,19 +92,21 @@ div.timeline {
       }
 
       // fade out the timeline after the last item
+
       &:last-child:before {
-        background-color: #111;
-        background-image: linear-gradient(to bottom, #fb8c00, #fb8c00, #111);
+        background-color: transparent;
+        background-image: linear-gradient(to bottom, theme("colors.secondary"), theme("colors.secondary"), transparent);
       }
 
       // the title of a timeline item is marked with ** in markdown
+
       & > strong {
-        @apply inline-block text-gray-900;
+        @apply inline-block text-grey-900;
 
         position: relative;
         font-size: 1em;
         font-weight: bold;
-        background-color: #ffb300;
+        background-color: theme("colors.primary");
         padding: 0.1em 1em 0.1em 1.5em;
         margin: 0 0 0.5em -1.9em;
 
@@ -107,14 +114,16 @@ div.timeline {
       }
 
       // list items in the child are displayed as small items on the timeline
+
       & > ul,
-      ol {
+      & > ol {
         list-style-type: none;
 
         & > li {
           position: relative;
 
           // add a small link to the timeline on the left
+
           &:before {
             content: "";
             position: absolute;
@@ -123,7 +132,7 @@ div.timeline {
             height: 0.25em;
             width: 0.5em;
             z-index: 99;
-            background-color: #fb8c00;
+            background-color: theme("colors.secondary");
             border-bottom-right-radius: 0.5em;
             border-top-right-radius: 0.5em;
           }
@@ -131,4 +140,87 @@ div.timeline {
       }
     }
   }
+}
+
+#header {
+  @apply flex-initial pt-0 pb-4 mb-4;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom left;
+
+  @screen sm {
+    @apply pb-8;
+  }
+
+  @screen md {
+    @apply pb-12;
+  }
+
+  @screen lg {
+    @apply pb-16;
+  }
+
+  @screen xl {
+    @apply pb-24;
+  }
+
+  #header-content {
+    @apply px-4 w-full h-auto text-grey-400;
+
+    #header-title {
+      @apply pt-0 text-center;
+
+      @screen sm {
+        @apply pt-1;
+      }
+
+      @screen md {
+        @apply pt-2;
+      }
+
+      @screen lg {
+        @apply pt-3;
+      }
+
+      @screen xl {
+        @apply pt-4;
+      }
+
+      & > h1 {
+        @apply text-5xl px-2 font-bold text-primary;
+      }
+    }
+  }
+}
+
+#footer {
+  @apply flex-initial pt-8 pb-8 mt-4;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top right;
+
+  @screen sm {
+    @apply pt-8;
+  }
+
+  @screen md {
+    @apply pt-12;
+  }
+
+  @screen lg {
+    @apply pt-16;
+  }
+
+  @screen xl {
+    @apply pt-20;
+  }
+
+  #footer-content {
+    @apply p-4 w-full h-auto text-grey-600 font-bold;
+    text-align: right;
+  }
+}
+
+#content {
+  @apply flex-grow px-4 py-0;
 }

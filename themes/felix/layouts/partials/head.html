@@ -1,4 +1,16 @@
-{{ $css := resources.Get "css/main.css" }}
-{{ $style := $css | resources.PostCSS | resources.Minify | resources.Fingerprint }}
+<link href="{{ .Page.Permalink }}" rel="canonical"/>
+<meta content="noindex" name="robots">
+<meta charset="UTF-8"/>
+<meta content="width=device-width, initial-scale=1, minimum-scale=0.3, maximum-scale=3, user-scalable=1"
+      name="viewport"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="#fb8c00" name="theme-color"/>
+<meta content="#212121" name="background-color"/>
 
-<link rel="stylesheet" href="{{ $style.Permalink }}" emotion="🤩" />
+<title>{{ .Page.Title }} • {{ .Site.Title }}</title>
+
+{{ $fonts := resources.Get "fonts/iosevka-2.3.3/webfont.css" | resources.PostCSS |  resources.Minify | resources.Fingerprint }}
+<link emotion="🤩" href="{{ $fonts.Permalink }}" rel="stylesheet"/>
+
+{{ $style := resources.Get "css/main.css" | resources.PostCSS | resources.Minify | resources.Fingerprint }}
+<link emotion="🤩" href="{{ $style.Permalink }}" rel="stylesheet"/>

@@ -315,6 +315,7 @@ module.exports = {
       serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
       mono: [
         'Iosevka Web',
+        'Arial',
         'Iosevka',
         'Fira Code',
         'Fira Mono',

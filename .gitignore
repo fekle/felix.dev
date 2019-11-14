@@ -1,5 +1,4 @@
 dist
-_gen
 
 # Created by https://www.gitignore.io/api/go,node,linux,macos,windows,jetbrains,visualstudiocode,hugo
 # Edit at https://www.gitignore.io/?templates=go,node,linux,macos,windows,jetbrains,visualstudiocode,hugo

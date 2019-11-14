@@ -5,10 +5,10 @@ DIST_DIR=dist
 all: build-prod
 
 clean:
-#	find . -type d -name '_gen' -print0 | xargs -0 rm -rf
+	rm -rf ./dist
 
 watch: clean
-	hugo server --watch
+	env NODE_ENV=development hugo server --gc --cleanDestinationDir --watch
 
 build: build-dev
 
@@ -17,6 +17,7 @@ build-dev: clean
 
 build-prod: clean
 	env NODE_ENV=production hugo --gc --cleanDestinationDir --minify
+	env NODE_ENV=production ./node_modules/.bin/purgecss -c purgecss.config.js -o dist/css
 
 fmt:
 	prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'

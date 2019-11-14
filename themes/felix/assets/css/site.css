@@ -1,0 +1,235 @@
+html {
+    @apply bg-black text-white antialiased leading-tight font-mono font-normal;
+}
+
+body {
+    @apply min-h-screen h-full flex flex-col items-stretch justify-center relative bg-dark-1;
+}
+
+div#header_container {
+    @apply flex-initial pt-0 pb-12 mb-4 bg-no-repeat bg-cover bg-left-bottom;
+
+    @screen sm {
+        @apply pb-16;
+    }
+
+    @screen md {
+        @apply pb-20;
+    }
+
+    @screen lg {
+        @apply pb-24;
+    }
+
+    @screen xl {
+        @apply pb-32;
+    }
+
+    #header-content {
+        @apply px-4 w-full h-auto text-grey-400;
+
+        #header-title {
+            @apply pt-0 text-center;
+
+            @screen sm {
+                @apply pt-1;
+            }
+
+            @screen md {
+                @apply pt-2;
+            }
+
+            @screen lg {
+                @apply pt-3;
+            }
+
+            @screen xl {
+                @apply pt-4;
+            }
+
+            & > h1 {
+                @apply text-5xl px-2 font-bold text-primary;
+            }
+        }
+    }
+}
+
+div#footer_container {
+    @apply flex-initial pt-8 pb-8 mt-4 bg-no-repeat bg-cover bg-right-top;
+
+    @screen sm {
+        @apply pt-8;
+    }
+
+    @screen md {
+        @apply pt-12;
+    }
+
+    @screen lg {
+        @apply pt-16;
+    }
+
+    @screen xl {
+        @apply pt-20;
+    }
+
+    #footer-content {
+        @apply p-4 w-full h-auto text-grey-600 font-bold text-right;
+    }
+}
+
+div#content_container {
+    @apply flex-grow px-4 py-0;
+}
+
+div#content {
+    h1:before,
+    h2:before,
+    h3:before,
+    h4:before,
+    h5:before,
+    h6:before {
+        @apply opacity-50;
+    }
+
+    h1 {
+        @apply text-2xl mt-6 mb-4;
+
+        &:before {
+            content: "# ";
+        }
+    }
+
+    h2 {
+        @apply text-xl mt-4 mb-2;
+
+        &:before {
+            content: "## ";
+        }
+    }
+
+    h3 {
+        @apply text-lg mt-2 mb-1;
+
+        &:before {
+            content: "### ";
+        }
+    }
+
+    h4 {
+        @apply font-bold;
+
+        &:before {
+            content: "#### ";
+        }
+    }
+
+    b,
+    strong {
+        @apply font-semibold;
+    }
+
+    hr {
+        @apply my-8 border-dashed border-2 border-grey-700;
+    }
+
+    blockquote {
+        @apply p-1 pl-6 mb-4 relative rounded-r;
+
+        &:before {
+            content: "";
+            @apply bg-secondary absolute z-0 inset-y-0 rounded-full;
+
+            width: 0.5em;
+            left: 0.1em;
+        }
+    }
+
+    section.section {
+        @apply my-8;
+    }
+
+// timeline
+
+    div.timeline {
+        @apply w-full h-auto mt-2;
+
+        & > ol,
+        & > ul {
+            & > li {
+                @apply relative pb-4 pl-6;
+
+            // add a timeline to the left of the item
+
+                &:before {
+                    content: "";
+
+                    @apply bg-secondary absolute z-0;
+
+                    left: 0.1em;
+                    top: 0.5em;
+                    bottom: -0.75em;
+
+                    width: 0.5em;
+                }
+
+            // add a bullet inside the tiemeline
+
+                &:after {
+                    content: "";
+
+                    @apply absolute z-0 bg-transparent;
+
+                    left: 0;
+                    top: 0.375em;
+
+                    height: 0.7em;
+                    width: 0.7em;
+
+                $col_secondary: theme("colors.secondary");
+                    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' viewBox='0 0 128 128' focusable='false'><circle stroke='none' fill='$col_secondary' cx='64' cy='64' r='64'></circle></svg>");
+                }
+
+            // round timeline at the last item
+
+                &:last-child:before {
+                    @apply rounded-b-full;
+                    bottom: 1.65em;
+                }
+
+            // the title of a timeline item is marked with ** in markdown
+
+                & > strong {
+                    @apply inline-block text-grey-900 relative font-bold bg-primary rounded-full;
+
+                    padding: 0.1em 0.5em 0.1em 1.5em;
+                    margin: 0 0 0.5em -1.9em;
+                }
+
+            // list items in the child are displayed as small items on the timeline
+
+                & > ul,
+                & > ol {
+                    list-style-type: none;
+
+                    & > li {
+                        @apply relative mb-1;
+
+                    // add a small link to the timeline on the left
+
+                        &:before {
+                            content: "";
+
+                            @apply absolute z-10 bg-secondary rounded-r-full;
+
+                            left: -1.1em;
+                            top: 0.35em;
+                            height: 0.5em;
+                            width: 0.75em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

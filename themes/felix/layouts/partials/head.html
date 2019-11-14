@@ -5,15 +5,19 @@
 <meta content="#fb8c00" name="theme-color"/>
 <meta content="#212121" name="background-color"/>
 <meta content="noindex" name="robots">
+<meta http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests; block-all-mixed-content; default-src 'self'; child-src 'self'; font-src 'self'; form-action 'self'; frame-src 'self'; img-src 'self' data:; object-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self';">
+
+<link rel="shortcut icon" href="/favicon.png"/>
 
 <title>{{ .Page.Title }} • {{ .Site.Title }}</title>
 
-<link href="{{ .Page.Permalink }}" rel="canonical"/>
+<link href="{{ .Page.Permalink }}" rel="canonical" crossorigin="anonymous"/>
 
 {{ $style := resources.Get "css/main.css" | resources.PostCSS | resources.Minify | resources.Fingerprint }}
-<link as="style" href="{{ $style.Permalink }}" rel="preload">
-<link href="{{ $style.Permalink }}" rel="stylesheet"/>
+<link as="style" href="{{ $style.Permalink }}" rel="preload" crossorigin="anonymous"/>
+<link href="{{ $style.Permalink }}" rel="stylesheet" crossorigin="anonymous"/>
 
 {{ $fonts := resources.Get "fonts/iosevka-2.3.3/webfont.css" | resources.PostCSS |  resources.Minify | resources.Fingerprint }}
-<link as="style" href="{{ $fonts.Permalink }}" rel="preload">
-<link href="{{ $fonts.Permalink }}" rel="stylesheet"/>
+<link as="style" href="{{ $fonts.Permalink }}" rel="preload" crossorigin="anonymous"/>
+<link href="{{ $fonts.Permalink }}" rel="stylesheet" crossorigin="anonymous"/>

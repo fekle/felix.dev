@@ -3,6 +3,17 @@ let colors = {
   black: '#000000',
   white: '#FFFFFF',
 
+  'dark-0': '#000000',
+  'dark-1': '#111111',
+  'dark-2': '#222222',
+  'dark-3': '#333333',
+  'dark-4': '#444444',
+  'dark-5': '#555555',
+  'dark-6': '#666666',
+  'dark-7': '#777777',
+  'dark-8': '#888888',
+  'dark-9': '#999999',
+
   'red-50': '#FFEBEE',
   'red-100': '#FFCDD2',
   'red-200': '#EF9A9A',
@@ -276,8 +287,10 @@ let colors = {
   'blue-grey-800': '#37474F',
   'blue-grey-900': '#263238',
 };
-colors.primary = colors['amber-500'];
-colors.secondary = colors['amber-700'];
+
+// https://coolors.co/
+colors.primary = '#ffa86a';
+colors.secondary = colors['dark-6'];
 
 module.exports = {
   theme: {

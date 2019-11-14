@@ -9,15 +9,15 @@ clean:
 	find . -type d -name '_gen' -print0 | xargs -0 rm -rf
 
 watch: clean
-	hugo server --cleanDestinationDir --verbose --watch
+	hugo server --gc --cleanDestinationDir --verbose --watch
 
 build: build-dev
 
 build-dev: clean
-	env NODE_ENV=development hugo --cleanDestinationDir
+	env NODE_ENV=development hugo --gc --cleanDestinationDir
 
 build-prod: clean
-	env NODE_ENV=production hugo --cleanDestinationDir --minify
+	env NODE_ENV=production hugo --gc --cleanDestinationDir --minify
 
 fmt:
 	prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'

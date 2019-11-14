@@ -5,7 +5,8 @@
 @import "tailwindcss/components";
 
 /* purgecss start ignore */
-@import "css/site.css";
+@import "themes/felix/assets/css/site.css";
+@import "themes/felix/assets/css/webfont.css";
 /* purgecss end ignore */
 
 @import "tailwindcss/utilities";

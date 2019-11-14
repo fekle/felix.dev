@@ -5,11 +5,10 @@ DIST_DIR=dist
 all: build-prod
 
 clean:
-	rm -rf ./dist
-	find . -type d -name '_gen' -print0 | xargs -0 rm -rf
+#	find . -type d -name '_gen' -print0 | xargs -0 rm -rf
 
 watch: clean
-	hugo server --gc --cleanDestinationDir --verbose --watch
+	hugo server --watch
 
 build: build-dev
 

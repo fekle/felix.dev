@@ -3,6 +3,7 @@
 @import "tailwindcss/components";
 
 @import "themes/felix/assets/css/site.css";
+@import "themes/felix/assets/css/chroma.css";
 @import "themes/felix/assets/css/webfont.css";
 
 @import "tailwindcss/utilities";

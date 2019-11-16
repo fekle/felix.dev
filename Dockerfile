@@ -1,6 +1,9 @@
 # build image
-FROM node:dubnium AS build
+FROM node:dubnium-buster-slim AS build
 WORKDIR /tmp/hugo-build
+
+# install apt deps
+RUN apt-get -y update -qq && apt-get -y install make parallel zopfli
 
 # install hugo
 ARG HUGO_VERSION=0.59.1
@@ -16,7 +19,7 @@ COPY . /tmp/hugo-build/
 RUN make build-prod
 
 # web image
-FROM nginx:latest
+FROM nginx:alpine
 
 # ports
 EXPOSE 80

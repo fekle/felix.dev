@@ -36,3 +36,8 @@ docker-build:
 
 docker-push:
 	docker push $(DOCKER_NAME)
+
+icons:
+	rm -rf themes/felix/static/favicons
+	gulp -f themes/felix/resources/favicons.js favicons
+	mv themes/felix/static/favicons/index.html themes/felix/layouts/partials/favicons.html

@@ -1,6 +1,6 @@
-var favicons = require('favicons').stream,
-  log = require('fancy-log'),
-  gulp = require('gulp');
+const favicons = require('favicons').stream;
+const log = require('fancy-log');
+const gulp = require('gulp');
 
 gulp.task('favicons', function() {
   return gulp

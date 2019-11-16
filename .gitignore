@@ -1,4 +1,4 @@
-dist
+/dist/
 
 # Created by https://www.gitignore.io/api/go,node,linux,macos,windows,jetbrains,visualstudiocode,hugo
 # Edit at https://www.gitignore.io/?templates=go,node,linux,macos,windows,jetbrains,visualstudiocode,hugo
@@ -25,10 +25,6 @@ dist
 /Godeps/
 
 ### Hugo ###
-# Generated files by hugo
-/public/
-/resources/_gen/
-
 # Executable may be added to repository
 hugo.exe
 hugo.darwin

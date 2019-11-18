@@ -23,10 +23,10 @@ build-prod: clean
 	env NODE_ENV=production $(HUGO) --minify
 
 	# perform after-build postcss (purge, minify)
-	env NODE_ENV=production ./node_modules/.bin/postcss --config resources/postcss-after -r 'dist/css/*.css'
-
-	# gzip files for gzip_static
-	find dist -type f -not -iregex '.*\.\(gz\|woff\|woff2\)$$' -print0 | parallel -0 zopfli --i5 --gzip
+#	env NODE_ENV=production ./node_modules/.bin/postcss --config resources/postcss-after -r 'dist/css/*.css'
+#
+#	# gzip files for gzip_static
+#	find dist -type f -not -iregex '.*\.\(gz\|woff\|woff2\)$$' -print0 | parallel -0 zopfli --i5 --gzip
 
 fmt:
 	prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'

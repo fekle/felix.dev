@@ -18,8 +18,13 @@ const paths = {
 
 gulp.task('clean', () => exec(`rm -rf '${paths.dist}'`));
 
-gulp.task('hugo:dev', () => exec('hugo --gc --cleanDestinationDir'));
-gulp.task('hugo:prod', () => exec('hugo --gc --cleanDestinationDir --minify'));
+gulp.task('hugo:chroma', () =>
+  exec(`hugo gen chromastyles --style=monokai > '${p.join(paths.theme, 'assets/css/vendor/chroma.css')}'`),
+);
+
+gulp.task('hugo:watch', () => exec('env NODE_ENV=development hugo --gc --cleanDestinationDir --watch -D server'));
+gulp.task('hugo:dev', () => exec('env NODE_ENV=development hugo --gc --cleanDestinationDir'));
+gulp.task('hugo:prod', () => exec('env NODE_ENV=production hugo --gc --cleanDestinationDir --minify'));
 
 gulp.task('favicons:convert', () =>
   gulp
@@ -101,12 +106,7 @@ gulp.task('compress', () =>
     .pipe(forEachFile(f => exec(`zopfli --gzip --i3 '${f}'`))),
 );
 
-gulp.task('fmt', () =>
-  gulp
-    .src(['./**/*.{js,ts,jsx,tsx,json,css,scss,pcss}', `!${path.dist}/**/*`])
-    .pipe(forEachFile(f => exec(`zopfli --gzip --i3 '${f}'`))),
-);
-
+gulp.task('fmt', () => exec("prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'"));
 
 gulp.task('build:dev', gulp.series('clean', 'hugo:dev'));
 gulp.task('build:prod', gulp.series('clean', 'hugo:prod', 'postcss:minify', 'compress'));

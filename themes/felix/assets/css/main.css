@@ -2,8 +2,13 @@
 
 @import "tailwindcss/components";
 
+// main styles
 @import "themes/felix/assets/css/site.css";
-@import "themes/felix/assets/css/chroma.css";
-@import "themes/felix/assets/css/webfont.css";
+
+// syntax highlighting
+@import "themes/felix/assets/css/vendor/chroma.css";
+
+// webfonts
+@import "themes/felix/assets/css/vendor/webfont.css";
 
 @import "tailwindcss/utilities";

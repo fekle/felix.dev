@@ -103,7 +103,7 @@ gulp.task('compress', () =>
     .pipe(forEachFile(f => exec(`zopfli --gzip --i3 '${f}'`))),
 );
 
-gulp.task('fmt', () => exec("prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'"));
+gulp.task('fmt', () => exec("prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss,yml,yaml}'"));
 
 gulp.task('build:dev', gulp.series('clean', 'hugo:dev'));
 gulp.task('build:prod', gulp.series('clean', 'hugo:prod', 'postcss:minify', 'compress'));

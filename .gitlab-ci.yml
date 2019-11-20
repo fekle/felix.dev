@@ -6,10 +6,6 @@ stages:
   - build
   - deploy
 
-before_script:
-  - mkdir -p $HOME/.docker
-  - echo "$DOCKER_AUTH_CONFIG" >> "$HOME/.docker/config.json"
-
 build:
   stage: build
   script:

@@ -6,6 +6,10 @@ stages:
   - build
   - deploy
 
+before_script:
+  - mkdir -p $HOME/.docker
+  - echo "$DOCKER_AUTH_CONFIG" >> "$HOME/.docker/config.json"
+
 build:
   stage: build
   script:
@@ -17,7 +21,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - kubectl --namespace felix set image deployment/nginx nginx=$IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID
+    - kubectl --namespace felix set image deployment/felix-dev felix-dev=$IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID
   only:
     - master
 

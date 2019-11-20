@@ -1,18 +1,19 @@
 variables:
-  BUILD_OPTS: ""
+  BUILD_OPTS: ''
   IMAGE_NAME: docker.felix.dev/felix.dev
 
 stages:
   - build
   - deploy
 
+before_script:
+  - mkdir -p "${HOME}/.docker" && echo "${DOCKER_AUTH_CONFIG}" >> "${HOME}/.docker/config.json"
+
 build:
   stage: build
   script:
     - 'echo "docker image: $IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID"'
     - docker-build $IMAGE_NAME $CI_COMMIT_SHA-$CI_PIPELINE_ID . "${BUILD_OPTS}"
-  only:
-    - master
 
 deploy-test:
   stage: deploy

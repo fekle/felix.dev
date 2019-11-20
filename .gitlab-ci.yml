@@ -21,7 +21,7 @@ build-prod:
   script:
     - docker-build "${IMAGE_CI_REF},${IMAGE_PROD_REF}" . "${BUILD_OPTS}"
   only:
-    - prod
+    - master
 
 deploy-test:
   stage: deploy

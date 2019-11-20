@@ -1,3 +1,5 @@
+process.chdir(__dirname);
+
 module.exports = {
   parser: 'postcss-scss',
   plugins: [

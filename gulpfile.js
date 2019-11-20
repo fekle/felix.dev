@@ -77,25 +77,22 @@ gulp.task('postcss:minify', () =>
   gulp
     .src(p.join(paths.dist, '**/*.css'))
     .pipe(
-      postcss(
-        [
-          require('@fullhuman/postcss-purgecss')({
-            content: ['./dist/**/*.html', './dist/**/*.js'],
-            defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
-          }),
-          require('cssnano')({
-            preset: [
-              'default',
-              {
-                discardComments: {
-                  removeAll: true,
-                },
+      postcss([
+        require('@fullhuman/postcss-purgecss')({
+          content: ['./dist/**/*.html', './dist/**/*.js'],
+          defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
+        }),
+        require('cssnano')({
+          preset: [
+            'default',
+            {
+              discardComments: {
+                removeAll: true,
               },
-            ],
-          }),
-        ],
-        { parser: require('postcss-scss') },
-      ),
+            },
+          ],
+        }),
+      ]),
     )
     .pipe(gulp.dest(p.join(paths.dist))),
 );

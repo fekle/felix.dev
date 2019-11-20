@@ -21,7 +21,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - kubectl --namespace felix set image deployment/felix-dev felix-dev=$IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID
+    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/felix-dev felix-dev=$IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID
   only:
     - master
 

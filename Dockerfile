@@ -16,7 +16,7 @@ RUN yarn install --prefer-offline --non-interactive --frozen-lockfile
 
 # build static site
 COPY . /tmp/hugo-build/
-RUN ./node_modules/.bin/ gulp build:prod
+RUN ./node_modules/.bin/gulp build:prod
 
 # web image
 FROM nginx:alpine

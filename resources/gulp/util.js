@@ -5,8 +5,8 @@ const exec = args => {
   return new Promise((res, rej) => {
     try {
       const proc = cp.execFile('bash', ['-c', args], () => res());
-      proc.stdout.on('data', data => process.stdout.write(data));
-      proc.stderr.on('data', data => process.stderr.write(data));
+      proc.stdout.on('data', data => process.stdout.write(data.toString()));
+      proc.stderr.on('data', data => process.stderr.write(data.toString()));
       return proc;
     } catch (e) {
       rej(e);

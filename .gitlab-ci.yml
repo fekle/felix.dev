@@ -1,27 +1,38 @@
 variables:
   BUILD_OPTS: ''
   IMAGE_NAME: docker.felix.dev/felix.dev
+  IMAGE_CI_REF: ${IMAGE_NAME}:$CI_COMMIT_SHA-$CI_PIPELINE_ID
+  IMAGE_DEV_REF: ${IMAGE_NAME}:dev
+  IMAGE_PROD_REF: ${IMAGE_NAME}:latest
 
 stages:
   - build
   - deploy
 
-build:
+build-dev:
   stage: build
   script:
-    - 'echo "docker image: $IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID"'
-    - docker-build $IMAGE_NAME $CI_COMMIT_SHA-$CI_PIPELINE_ID . "${BUILD_OPTS}"
+    - docker-build "${IMAGE_CI_REF},${IMAGE_DEV_REF}" . "${BUILD_OPTS}"
+  only:
+    - dev
+
+build-prod:
+  stage: build
+  script:
+    - docker-build "${IMAGE_CI_REF},${IMAGE_PROD_REF}" . "${BUILD_OPTS}"
+  only:
+    - prod
 
 deploy-test:
   stage: deploy
   script:
-    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/test-felix-dev test-felix-dev=$IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID
+    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/test-felix-dev "test-felix-dev=${IMAGE_CI_REF}"
   only:
     - dev
 
-deploy:
+deploy-prod:
   stage: deploy
   script:
-    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/felix-dev felix-dev=$IMAGE_NAME:$CI_COMMIT_SHA-$CI_PIPELINE_ID
+    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/felix-dev "felix-dev=${IMAGE_CI_REF}"
   only:
     - master

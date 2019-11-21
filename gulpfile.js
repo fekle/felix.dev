@@ -5,6 +5,7 @@ const fs = require('fs');
 const gulp = require('gulp');
 const favicons = require('gulp-favicons');
 const postcss = require('gulp-postcss');
+const imagemin = require('gulp-imagemin');
 
 const { exec, forEachFile } = require('./resources/gulp/util');
 
@@ -31,7 +32,7 @@ gulp.task('favicons:convert', () =>
     .src(p.join(paths.theme, 'resources/favicon.png'))
     .pipe(
       favicons({
-        path: '/favicons',
+        path: '/img/favicons',
         appName: 'felix.dev',
         appShortName: 'felix.dev',
         appDescription: "Felix Klein's Homepage",
@@ -62,11 +63,11 @@ gulp.task('favicons:convert', () =>
         replace: true,
       }),
     )
-    .pipe(gulp.dest(p.join(paths.theme, 'static/favicons'))),
+    .pipe(gulp.dest(p.join(paths.theme, 'static/img/favicons'))),
 );
 gulp.task('favicons:move-meta-html', cb =>
   fs.rename(
-    p.join(paths.theme, 'static/favicons/index.html'),
+    p.join(paths.theme, 'static/img/favicons/index.html'),
     p.join(paths.theme, 'layouts/partials/favicons.html'),
     cb,
   ),
@@ -94,7 +95,14 @@ gulp.task('postcss:minify', () =>
         }),
       ]),
     )
-    .pipe(gulp.dest(p.join(paths.dist))),
+    .pipe(gulp.dest(paths.dist)),
+);
+
+gulp.task('imagemin', () =>
+  gulp
+    .src(p.join(paths.dist, '**/*.{png,svg,jpg,jpeg,gif,webp}'))
+    .pipe(imagemin())
+    .pipe(gulp.dest(paths.dist)),
 );
 
 gulp.task('compress', () =>
@@ -103,10 +111,10 @@ gulp.task('compress', () =>
     .pipe(forEachFile(f => exec(`zopfli --gzip --i3 '${f}'`))),
 );
 
-gulp.task('fmt', () => exec("prettier --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss}'"));
+gulp.task('fmt', () => exec("prettier --color --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss,yml,yaml}'"));
 
 gulp.task('build:dev', gulp.series('clean', 'hugo:dev'));
-gulp.task('build:prod', gulp.series('clean', 'hugo:prod', 'postcss:minify', 'compress'));
+gulp.task('build:prod', gulp.series('clean', 'hugo:prod', gulp.parallel('postcss:minify', 'imagemin'), 'compress'));
 
 gulp.task('build', gulp.series('build:prod'));
 gulp.task('default', gulp.series('build'));

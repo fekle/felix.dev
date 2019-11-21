@@ -16,7 +16,8 @@ RUN yarn install --prefer-offline --non-interactive --frozen-lockfile
 
 # build static site
 COPY . /tmp/hugo-build/
-RUN ./node_modules/.bin/gulp build:prod
+RUN ./node_modules/.bin/gulp build:prod && \
+    ./resources/nginx-http2-push.sh > ./dist/nginx-http2-push.conf
 
 # web image
 FROM nginx:alpine
@@ -29,5 +30,7 @@ EXPOSE 8080
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # copy static files
-COPY --from="build" --chown=nginx:nginx /tmp/hugo-build/dist /var/www/web
+COPY --from="build" --chown=nginx:nginx /tmp/hugo-build/dist /var/www/felix.dev
 
+# move generated nginx config
+RUN mv /var/www/felix.dev/nginx-http2-push.conf /etc/nginx/nginx-http2-push.conf

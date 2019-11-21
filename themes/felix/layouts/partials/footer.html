@@ -1,4 +1,4 @@
-{{ $footer_bg := resources.Get "img/footer_bg.svg" | resources.Minify | resources.Fingerprint }}
+{{ $footer_bg := resources.Get "css/res/footer_bg.svg" | resources.Minify | resources.Fingerprint }}
 <div id="footer_container" style="background-image: url({{ $footer_bg.Permalink }})">
     <div class="container mx-auto" id="footer-content">
         © 2019 Felix Klein

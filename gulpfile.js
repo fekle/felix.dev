@@ -31,7 +31,7 @@ gulp.task('favicons:convert', () =>
     .src(p.join(paths.theme, 'resources/favicon.png'))
     .pipe(
       favicons({
-        path: '/favicons',
+        path: '/img/favicons',
         appName: 'felix.dev',
         appShortName: 'felix.dev',
         appDescription: "Felix Klein's Homepage",
@@ -62,11 +62,11 @@ gulp.task('favicons:convert', () =>
         replace: true,
       }),
     )
-    .pipe(gulp.dest(p.join(paths.theme, 'static/favicons'))),
+    .pipe(gulp.dest(p.join(paths.theme, 'static/img/favicons'))),
 );
 gulp.task('favicons:move-meta-html', cb =>
   fs.rename(
-    p.join(paths.theme, 'static/favicons/index.html'),
+    p.join(paths.theme, 'static/img/favicons/index.html'),
     p.join(paths.theme, 'layouts/partials/favicons.html'),
     cb,
   ),

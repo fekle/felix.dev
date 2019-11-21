@@ -74,13 +74,17 @@ gulp.task('favicons:move-meta-html', cb =>
 );
 gulp.task('favicons', gulp.series('favicons:convert', 'favicons:move-meta-html'));
 
-gulp.task('postcss:minify', () =>
+gulp.task('postcss', () =>
   gulp
     .src(p.join(paths.dist, '**/*.css'))
     .pipe(
       postcss([
+        require('postcss-font-display'),
+        require('autoprefixer'),
         require('@fullhuman/postcss-purgecss')({
           content: ['./dist/**/*.html', './dist/**/*.js'],
+          keyframes: true,
+          fontFace: true,
         }),
         require('cssnano')({
           preset: [
@@ -113,7 +117,7 @@ gulp.task('compress', () =>
 gulp.task('fmt', () => exec("prettier --color --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss,yml,yaml}'"));
 
 gulp.task('build:dev', gulp.series('clean', 'hugo:dev'));
-gulp.task('build:prod', gulp.series('clean', 'hugo:prod', gulp.parallel('postcss:minify', 'imagemin'), 'compress'));
+gulp.task('build:prod', gulp.series('clean', 'hugo:prod', gulp.parallel('postcss', 'imagemin'), 'compress'));
 
 gulp.task('build', gulp.series('build:prod'));
 gulp.task('default', gulp.series('build'));

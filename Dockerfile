@@ -29,5 +29,5 @@ EXPOSE 8080
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # copy static files
-COPY --from="build" --chown=nginx:nginx /tmp/hugo-build/dist /var/www/web
+COPY --from="build" --chown=nginx:nginx /tmp/hugo-build/dist /var/www/felix.dev
 

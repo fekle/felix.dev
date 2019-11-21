@@ -6,6 +6,10 @@ module.exports = {
     require('postcss-import'),
     require('tailwindcss'),
     require('precss'),
+    require('postcss-assets')({
+      cachebuster: true,
+      loadPaths: ['assets/', 'static/'],
+    }),
     require('postcss-font-display'),
     require('autoprefixer'),
   ],

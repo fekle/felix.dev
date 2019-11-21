@@ -1,5 +1,4 @@
-{{ $header_bg := resources.Get "css/res/header_bg.svg" | resources.Minify | resources.Fingerprint }}
-<div id="header_container" style="background-image: url({{ $header_bg.Permalink }})">
+<div id="header_container">
     <div id="header-content">
         <nav class="p-4 mt-0 mb-1 w-full">
             <div class="container mx-auto flex flex-wrap items-center">

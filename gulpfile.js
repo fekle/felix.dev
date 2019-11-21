@@ -81,7 +81,6 @@ gulp.task('postcss:minify', () =>
       postcss([
         require('@fullhuman/postcss-purgecss')({
           content: ['./dist/**/*.html', './dist/**/*.js'],
-          defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
         }),
         require('cssnano')({
           preset: [

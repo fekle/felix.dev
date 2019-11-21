@@ -10,7 +10,5 @@ module.exports = {
       cachebuster: true,
       loadPaths: ['assets/', 'static/'],
     }),
-    require('postcss-font-display'),
-    require('autoprefixer'),
   ],
 };

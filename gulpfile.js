@@ -14,6 +14,15 @@ const paths = {
   dist: './dist',
 };
 
+const imagemin = () =>
+  require('gulp-imagemin')([
+    require('imagemin-mozjpeg')({ quality: 85, progressive: true }),
+    require('imagemin-pngquant')({ quality: [0.85, 1] }),
+    require('imagemin-optipng')({ optimizationLevel: 3 }),
+    require('imagemin-gifsicle')({ interlaced: true }),
+    require('imagemin-svgo')(),
+  ]);
+
 gulp.task('clean', () => exec(`rm -rf '${paths.dist}'`));
 
 gulp.task('hugo:chroma', () =>
@@ -26,7 +35,7 @@ gulp.task('hugo:prod', () => exec('env NODE_ENV=production hugo --gc --cleanDest
 
 gulp.task('favicons:convert', () =>
   gulp
-    .src(p.join(paths.theme, 'resources/favicon.png'))
+    .src(p.join(paths.theme, 'resources/favicon.svg'))
     .pipe(
       require('gulp-favicons')({
         path: '/img/favicons',
@@ -62,6 +71,13 @@ gulp.task('favicons:convert', () =>
     )
     .pipe(gulp.dest(p.join(paths.theme, 'static/img/favicons'))),
 );
+gulp.task('favicons:compress', () =>
+  gulp
+    .src(p.join(paths.theme, 'static/img/favicons/**/*.{png,svg,jpg,jpeg,gif,ico,webp}'))
+    .pipe(imagemin())
+    .pipe(gulp.dest(p.join(paths.theme, 'static/img/favicons'))),
+);
+
 gulp.task('favicons:move-meta-html', cb =>
   fs.rename(
     p.join(paths.theme, 'static/img/favicons/index.html'),
@@ -69,7 +85,17 @@ gulp.task('favicons:move-meta-html', cb =>
     cb,
   ),
 );
-gulp.task('favicons', gulp.series('favicons:convert', 'favicons:move-meta-html'));
+gulp.task('favicons:copy-legacy', cb =>
+  fs.copyFile(p.join(paths.theme, 'static/img/favicons/favicon.ico'), p.join(paths.theme, 'static/favicon.ico'), cb),
+);
+gulp.task(
+  'favicons',
+  gulp.series(
+    'favicons:convert',
+    'favicons:compress',
+    gulp.parallel('favicons:move-meta-html', 'favicons:copy-legacy'),
+  ),
+);
 
 gulp.task('postcss', () =>
   gulp
@@ -100,16 +126,8 @@ gulp.task('postcss', () =>
 
 gulp.task('imagemin', () =>
   gulp
-    .src(p.join(paths.dist, '**/*.{png,svg,jpg,jpeg,gif}'))
-    .pipe(
-      require('gulp-imagemin')([
-        require('imagemin-mozjpeg')({ quality: 85, progressive: true }),
-        require('imagemin-pngquant')({ quality: [0.85, 1] }),
-        require('imagemin-gifsicle')({ interlaced: true }),
-        require('imagemin-optipng')({ optimizationLevel: 3 }),
-        require('imagemin-svgo')(),
-      ]),
-    )
+    .src(p.join(paths.dist, '**/*.{png,svg,jpg,jpeg,gif,ico,webp}'))
+    .pipe(imagemin())
     .pipe(gulp.dest(paths.dist)),
 );
 

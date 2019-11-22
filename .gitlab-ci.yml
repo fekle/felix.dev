@@ -11,21 +11,15 @@ stages:
 
 build-dev:
   stage: build
-  script: |
-    buildctl build \
-      --frontend=dockerfile.v0 \
-      --local context=. --local dockerfile=. \
-      --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_DEV_REF}\",push=true ${BUILD_OPTS}
+  script:
+    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_DEV_REF}\",push=true ${BUILD_OPTS}
   only:
     - dev
 
 build-prod:
   stage: build
-  script: |
-    buildctl build \
-      --frontend=dockerfile.v0 \
-      --local context=. --local dockerfile=. \
-      --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true ${BUILD_OPTS}
+  script:
+    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true ${BUILD_OPTS}
   only:
     - master
 

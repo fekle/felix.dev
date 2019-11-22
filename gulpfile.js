@@ -132,9 +132,7 @@ gulp.task('imagemin', () =>
 );
 
 gulp.task('compress', () =>
-  gulp
-    .src([p.join(paths.dist, '**/*'), '!**/*.{gz,woff,woff2}'])
-    .pipe(forEachFile(f => exec(`zopfli --gzip --i3 '${f}'`))),
+  gulp.src([p.join(paths.dist, '**/*'), '!**/*.gz']).pipe(forEachFile(f => exec(`zopfli --gzip --i5 '${f}'`))),
 );
 
 gulp.task('fmt', () => exec("prettier --color --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss,yml,yaml}'"));

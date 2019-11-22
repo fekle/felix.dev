@@ -5,7 +5,7 @@ WORKDIR /tmp/hugo-build
 # install apt deps
 RUN apt-get -y update -qq && apt-get -y install make parallel zopfli
 
-# install hugo
+# install hugo (https://github.com/gohugoio/hugo/releases)
 ARG HUGO_VERSION=0.59.1
 ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb /tmp/hugo.deb
 RUN dpkg -i /tmp/hugo.deb

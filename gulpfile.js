@@ -3,9 +3,6 @@
 const p = require('path');
 const fs = require('fs');
 const gulp = require('gulp');
-const favicons = require('gulp-favicons');
-const postcss = require('gulp-postcss');
-const imagemin = require('gulp-imagemin');
 
 const { exec, forEachFile } = require('./resources/gulp/util');
 
@@ -31,7 +28,7 @@ gulp.task('favicons:convert', () =>
   gulp
     .src(p.join(paths.theme, 'resources/favicon.png'))
     .pipe(
-      favicons({
+      require('gulp-favicons')({
         path: '/img/favicons',
         appName: 'felix.dev',
         appShortName: 'felix.dev',
@@ -78,7 +75,7 @@ gulp.task('postcss', () =>
   gulp
     .src(p.join(paths.dist, '**/*.css'))
     .pipe(
-      postcss([
+      require('gulp-postcss')([
         require('postcss-font-display'),
         require('autoprefixer'),
         require('@fullhuman/postcss-purgecss')({
@@ -103,8 +100,16 @@ gulp.task('postcss', () =>
 
 gulp.task('imagemin', () =>
   gulp
-    .src(p.join(paths.dist, '**/*.{png,svg,jpg,jpeg,gif,webp}'))
-    .pipe(imagemin())
+    .src(p.join(paths.dist, '**/*.{png,svg,jpg,jpeg,gif}'))
+    .pipe(
+      require('gulp-imagemin')([
+        require('imagemin-mozjpeg')({ quality: 85, progressive: true }),
+        require('imagemin-pngquant')({ quality: [0.85, 1] }),
+        require('imagemin-gifsicle')({ interlaced: true }),
+        require('imagemin-optipng')({ optimizationLevel: 3 }),
+        require('imagemin-svgo')(),
+      ]),
+    )
     .pipe(gulp.dest(paths.dist)),
 );
 

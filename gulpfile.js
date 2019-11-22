@@ -55,14 +55,30 @@ gulp.task('favicons:convert', () =>
         start_url: '/',
         version: '1.0',
         icons: {
-          android: true,
-          appleIcon: true,
-          appleStartup: true,
-          coast: true,
-          favicons: true,
-          firefox: true,
-          windows: true,
-          yandex: true,
+          android: {
+            background: 'rgba(0,0,0,0)',
+          },
+          appleIcon: {
+            background: 'rgba(0,0,0,0)',
+          },
+          appleStartup: {
+            background: 'rgba(0,0,0,0)',
+          },
+          coast: {
+            background: 'rgba(0,0,0,0)',
+          },
+          favicons: {
+            background: 'rgba(0,0,0,0)',
+          },
+          firefox: {
+            background: 'rgba(0,0,0,0)',
+          },
+          windows: {
+            background: 'rgba(0,0,0,0)',
+          },
+          yandex: {
+            background: 'rgba(0,0,0,0)',
+          },
         },
         html: 'index.html',
         pipeHTML: true,

@@ -4,7 +4,7 @@ const through = require('through2');
 const exec = args => {
   return new Promise((res, rej) => {
     try {
-      const proc = cp.execFile('bash', ['-c', args], () => res());
+      const proc = cp.execFile('bash', ['-c', args], e => (e ? rej(e) : res()));
       proc.stdout.on('data', data => process.stdout.write(data.toString()));
       proc.stderr.on('data', data => process.stderr.write(data.toString()));
       return proc;
@@ -23,9 +23,10 @@ const forEachFile = fn => {
       }
       cb();
     },
-    cb => {
-      Promise.all(buf.map(x => Promise.resolve(x))).then(() => cb());
-    },
+    cb =>
+      Promise.all(buf.map(x => Promise.resolve(x)))
+        .then(() => cb())
+        .catch(e => cb(e)),
   );
 };
 

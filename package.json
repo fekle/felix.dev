@@ -1,4 +1,12 @@
 {
+  "name": "felix.dev",
+  "version": "1.0.0",
+  "description": "felix.dev",
+  "main": "gulpfile.js",
+  "repository": "ssh://git@git-ssh.felix.dev:2222/felix/felix.dev.git",
+  "author": "Felix Klein <felix@felixklein.com>",
+  "license": "MIT",
+  "private": true,
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^1.3.0",
     "autoprefixer": "^9.7.2",

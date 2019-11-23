@@ -10,7 +10,7 @@ stages:
   - deploy
 
 before_script:
-  - docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY <<<$CI_JOB_TOKEN > /dev/null 2>&1
+  - docker login -u gitlab-ci-token --password-stdin "${CI_REGISTRY}" <<<"${CI_JOB_TOKEN}" > /dev/null 2>&1
 
 build-dev:
   stage: build

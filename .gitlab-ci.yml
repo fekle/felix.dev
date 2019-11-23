@@ -26,6 +26,7 @@ build-prod:
 deploy-test:
   stage: deploy
   script:
+    - echo "${IMAGE_CI_REF}"
     - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/test-felix-dev "web=${IMAGE_CI_REF}"
   only:
     - dev
@@ -33,6 +34,7 @@ deploy-test:
 deploy-prod:
   stage: deploy
   script:
+    - echo "${IMAGE_CI_REF}"
     - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/felix-dev "web=${IMAGE_CI_REF}"
   only:
     - master

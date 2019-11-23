@@ -11,6 +11,8 @@ stages:
 
 build-dev:
   stage: build
+  before_script:
+    - docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY <<<$CI_JOB_TOKEN
   script:
     - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_DEV_REF}\",push=true ${BUILD_OPTS}
   only:
@@ -18,6 +20,8 @@ build-dev:
 
 build-prod:
   stage: build
+  before_script:
+    - docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY <<<$CI_JOB_TOKEN
   script:
     - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true ${BUILD_OPTS}
   only:

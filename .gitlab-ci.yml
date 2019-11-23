@@ -1,6 +1,6 @@
 variables:
   BUILD_OPTS: ''
-  IMAGE_NAME: docker.felix.dev/felix.dev
+  IMAGE_NAME: docker.felix.dev/felix/felix.dev/web
   IMAGE_CI_REF: ${IMAGE_NAME}:$CI_COMMIT_SHA-$CI_PIPELINE_ID
   IMAGE_DEV_REF: ${IMAGE_NAME}:dev
   IMAGE_PROD_REF: ${IMAGE_NAME}:latest
@@ -8,6 +8,9 @@ variables:
 stages:
   - build
   - deploy
+
+before_script:
+  - docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY <<<$CI_JOB_TOKEN > /dev/null 2>&1
 
 build-dev:
   stage: build
@@ -26,13 +29,15 @@ build-prod:
 deploy-test:
   stage: deploy
   script:
-    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/test-felix-dev "test-felix-dev=${IMAGE_CI_REF}"
+    - echo "${IMAGE_CI_REF}"
+    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/test-felix-dev "web=${IMAGE_CI_REF}"
   only:
     - dev
 
 deploy-prod:
   stage: deploy
   script:
-    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/felix-dev "felix-dev=${IMAGE_CI_REF}"
+    - echo "${IMAGE_CI_REF}"
+    - kubectl --kubeconfig "${KUBE_CONFIG}" --namespace felix set image deployment/felix-dev "web=${IMAGE_CI_REF}"
   only:
     - master

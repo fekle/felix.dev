@@ -1,4 +1,4 @@
-DOCKER_NAME = "docker.felix.dev/felix.dev:latest"
+DOCKER_NAME = "docker.felix.dev/felix/felix.dev/web:latest"
 
 .PHONY: *
 

@@ -25,6 +25,7 @@ RUN yarn install --prefer-offline --non-interactive --frozen-lockfile
 
 # build static site
 COPY . /tmp/hugo-build/
+ARG HUGO_BASEURL=''
 RUN ./node_modules/.bin/gulp build:prod && \
     ./resources/nginx-http2-push.sh > ./nginx-http2-push.conf
 

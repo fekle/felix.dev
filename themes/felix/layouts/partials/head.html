@@ -18,6 +18,6 @@
 
 <link href="{{ .Page.Permalink }}" rel="canonical"/>
 
-{{ $style := resources.Get "css/main.css" | resources.PostCSS | resources.Minify | resources.Fingerprint }}
+{{ $style := resources.Get "css/main.css" | postCSS | fingerprint }}
 <link as="style" href="{{ $style.Permalink }}" rel="preload"/>
 <link href="{{ $style.Permalink }}" rel="stylesheet"/>

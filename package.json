@@ -30,8 +30,5 @@
     "prettier": "^1.19.1",
     "purgecss": "^1.4.1",
     "tailwindcss": "^1.1.4"
-  },
-  "scripts": {
-    "gulp": "./node_modules/.bin/gulp"
   }
 }

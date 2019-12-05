@@ -1,5 +1,5 @@
 # build image
-FROM ubuntu:18.04 AS build
+FROM ubuntu:18.04 AS base
 WORKDIR /tmp/hugo-build
 
 # install apt deps
@@ -19,14 +19,15 @@ ARG HUGO_VERSION=0.60.1
 RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
     dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 
+FROM base AS build
+
 # install yarn dependencies
 COPY package.json yarn.lock /tmp/hugo-build/
 RUN yarn install --prefer-offline --non-interactive --frozen-lockfile
 
 # build static site
 COPY . /tmp/hugo-build/
-ARG HUGO_BASEURL
-RUN yarn gulp build:prod
+RUN yarn exec gulp build:prod
 
 # web image
 FROM nginx:alpine

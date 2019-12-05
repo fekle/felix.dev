@@ -24,7 +24,7 @@ build-dev:
 build-prod:
   stage: build
   script:
-    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true --opt "build-arg:HUGO_BASEURL=https://${PROD_URL}/" ${BUILD_OPTS} ${BUILD_OPTS}
+    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true --opt "build-arg:HUGO_BASEURL=${PROD_URL}" ${BUILD_OPTS} ${BUILD_OPTS}
   only:
     - master
 

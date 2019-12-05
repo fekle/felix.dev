@@ -1,5 +1,5 @@
 {{ define "main" }}
-    <article title="{{.Page.Title}}">
-        {{.Content | markdownify | safeHTML }}
+    <article title="{{ .Page.Title }}">
+        {{ .Content }}
     </article>
 {{ end }}

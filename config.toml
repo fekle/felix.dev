@@ -3,9 +3,6 @@ theme = "felix"
 paginate = 3
 publishDir = "dist"
 
-pygmentsCodeFences = true
-pygmentsUseClasses = true
-
 [languages]
   [languages.en]
     languageName = "English"
@@ -19,5 +16,15 @@ pygmentsUseClasses = true
       logoText = "Felix Klein"
       logoHomeLink = "/"
 
-[blackfriday]
-    noreferrerLinks = true
+[markup]
+  [markup.goldmark]
+      [markup.goldmark.renderer]
+        unsafe = true
+  defaultMarkdownHandler = "goldmark"
+  [markup.highlight]
+    codeFences = true
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = false
+    style = "monokai"
+    tabWidth = 2

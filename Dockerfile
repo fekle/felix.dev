@@ -1,4 +1,4 @@
-# build image
+# base image
 FROM ubuntu:18.04 AS base
 WORKDIR /tmp/hugo-build
 
@@ -19,6 +19,7 @@ ARG HUGO_VERSION=0.60.1
 RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
     dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 
+# build image
 FROM base AS build
 
 # install yarn dependencies

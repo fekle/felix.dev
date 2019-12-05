@@ -4,25 +4,27 @@ variables:
   IMAGE_CI_REF: ${IMAGE_NAME}:$CI_COMMIT_SHA-$CI_PIPELINE_ID
   IMAGE_DEV_REF: ${IMAGE_NAME}:dev
   IMAGE_PROD_REF: ${IMAGE_NAME}:latest
+  DEV_URL: https://test.felix.dev/
+  PROD_URL: https://felix.dev/
 
 stages:
   - build
   - deploy
 
 before_script:
-  - docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY <<<$CI_JOB_TOKEN > /dev/null 2>&1
+  - docker login -u gitlab-ci-token --password-stdin "${CI_REGISTRY}" <<<"${CI_JOB_TOKEN}" > /dev/null 2>&1
 
 build-dev:
   stage: build
   script:
-    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_DEV_REF}\",push=true ${BUILD_OPTS}
+    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_DEV_REF}\",push=true --opt "build-arg:HUGO_BASEURL=${DEV_URL}" ${BUILD_OPTS}
   only:
     - dev
 
 build-prod:
   stage: build
   script:
-    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true ${BUILD_OPTS}
+    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true --opt "build-arg:HUGO_BASEURL=${PROD_URL}" ${BUILD_OPTS} ${BUILD_OPTS}
   only:
     - master
 

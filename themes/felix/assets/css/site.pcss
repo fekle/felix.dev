@@ -4,11 +4,8 @@ $col_secondary: theme("colors.secondary");
 html {
   @apply bg-black text-white antialiased font-mono font-normal leading-normal;
 
-  scrollbar-color: theme("colors.dark-4") theme("colors.dark-2");
-  scrollbar-width: thin;
-  scrollbar-height: thin;
+  // scrollbar styles scrollbar-color: theme("colors.dark-4") theme("colors.dark-2"); scrollbar-width: thin; scrollbar-height: thin;
 
-  /* Scrollbar styles */
   ::-webkit-scrollbar {
     @apply w-2 h-2;
   }
@@ -239,7 +236,7 @@ div#content {
   }
 
   table {
-    @apply block w-auto p-0 table-auto bg-dark-2 rounded-lg my-4 border-2 border-dark-3 overflow-x-auto whitespace-no-wrap;
+    @apply block w-auto p-0 table-auto my-auto bg-dark-2 rounded-lg my-4 border-2 border-dark-3 overflow-x-auto whitespace-no-wrap;
 
     & > thead,
     & > tbody {
@@ -266,8 +263,17 @@ div#content {
     }
   }
 
-  pre {
-    @apply block py-2 px-4 my-4 bg-dark-2 border-2 border-dark-3 rounded-lg overflow-x-auto whitespace-no-wrap whitespace-pre;
+  .highlight > .chroma {
+    @apply block my-4 bg-dark-2 border-2 border-dark-3 rounded-lg overflow-x-auto;
+
+    & > .lntable {
+      @apply table-auto;
+    }
+
+    pre,
+    code {
+      @apply bg-transparent whitespace-no-wrap whitespace-pre;
+    }
   }
 
   a {
@@ -354,6 +360,7 @@ div#content {
             @apply relative mb-1 pl-2;
 
             // add a small link to the timeline on the left
+
             &:before {
               @apply rounded-r-lg;
               background-image: none;

@@ -1,5 +1,10 @@
 {{ define "main" }}
-    <article title="{{.Page.Title}}">
-        {{.Content | markdownify | safeHTML }}
-    </article>
+    <main>
+        <article title="{{ .Page.Title }}">
+            <header class="hidden">{{ .Page.Title }}</header>
+            <p>
+                {{ .Content }}
+            </p>
+        </article>
+    </main>
 {{ end }}

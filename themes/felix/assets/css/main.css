@@ -1,14 +1,15 @@
+/* tailwind base */
 @import "tailwindcss/base";
-
 @import "tailwindcss/components";
 
-// main styles
-@import "assets/css/site.css";
+/* main styles */
+@import "assets/css/site.pcss";
 
-// syntax highlighting
+/* syntax highlighting */
 @import "assets/css/vendor/chroma.css";
 
-// webfonts
+/* webfonts */
 @import "assets/css/vendor/webfont.css";
 
+/* tailwind utilities */
 @import "tailwindcss/utilities";

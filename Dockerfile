@@ -1,14 +1,23 @@
 # build image
-FROM node:dubnium-buster-slim AS build
+FROM ubuntu:18.04 AS build
 WORKDIR /tmp/hugo-build
 
 # install apt deps
-RUN apt-get -y update -qq && apt-get -y install make parallel zopfli
+RUN apt-get -y update -qq && \
+    apt-get -y install curl gnupg zopfli parallel &&  \
+    apt-get -y clean -q
+
+# install node and yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
+    apt-get -y update -qq && \
+    apt-get -y install yarn && \
+    apt-get -y clean -q
 
 # install hugo (https://github.com/gohugoio/hugo/releases)
-ARG HUGO_VERSION=0.59.1
-ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb /tmp/hugo.deb
-RUN dpkg -i /tmp/hugo.deb
+ARG HUGO_VERSION=0.60.1
+RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
+    dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 
 # install yarn dependencies
 COPY package.json yarn.lock /tmp/hugo-build/
@@ -16,8 +25,8 @@ RUN yarn install --prefer-offline --non-interactive --frozen-lockfile
 
 # build static site
 COPY . /tmp/hugo-build/
-RUN ./node_modules/.bin/gulp build:prod && \
-    ./resources/nginx-http2-push.sh > ./dist/nginx-http2-push.conf
+ARG HUGO_BASEURL
+RUN yarn gulp build:prod
 
 # web image
 FROM nginx:alpine
@@ -30,7 +39,4 @@ EXPOSE 8080
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # copy static files
-COPY --from="build" --chown=nginx:nginx /tmp/hugo-build/dist /var/www/felix.dev
-
-# move generated nginx config
-RUN mv /var/www/felix.dev/nginx-http2-push.conf /etc/nginx/nginx-http2-push.conf
+COPY --from=build --chown=nginx:nginx /tmp/hugo-build/dist /var/www/felix.dev

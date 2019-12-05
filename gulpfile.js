@@ -4,7 +4,10 @@ const p = require('path');
 const fs = require('fs');
 const gulp = require('gulp');
 
-const { exec, forEachFile } = require('./resources/gulp/util');
+const { exec, forEachFile, withAllFiles, execAllFilesStdin } = require('./resources/gulp/util');
+
+// variables
+const DOCKER_DEV_TAG = 'docker.felix.dev/felix/felix.dev/web:dev';
 
 // go to correct dir
 process.chdir(__dirname);
@@ -148,10 +151,13 @@ gulp.task('imagemin', () =>
 );
 
 gulp.task('compress', () =>
-  gulp.src([p.join(paths.dist, '**/*'), '!**/*.gz']).pipe(forEachFile(f => exec(`zopfli --gzip --i5 '${f}'`))),
+  gulp.src([p.join(paths.dist, '**/*'), '!**/*.gz']).pipe(execAllFilesStdin("parallel -0 'zopfli --gzip --i5 {}'")),
 );
 
 gulp.task('fmt', () => exec("prettier --color --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss,yml,yaml}'"));
+
+gulp.task('docker:build', () => exec(`docker build --pull -t ${DOCKER_DEV_TAG} .`));
+gulp.task('docker:push', () => exec(`docker push ${DOCKER_DEV_TAG}`));
 
 gulp.task('build:dev', gulp.series('clean', 'hugo:dev'));
 gulp.task('build:prod', gulp.series('clean', 'hugo:prod', gulp.parallel('postcss', 'imagemin'), 'compress'));

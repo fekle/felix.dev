@@ -1,4 +1,4 @@
 [submodule "content"]
 	path = content
-	url = ssh://git@git.felix.dev:2222/felix/felix.dev-content.git
+	url = ../../felix/felix.dev-content.git
 	branch = master

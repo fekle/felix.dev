@@ -28,3 +28,6 @@ publishDir = "dist"
     noClasses = false
     style = "monokai"
     tabWidth = 2
+  [markup.tableOfContents]
+    endLevel = 3
+    startLevel = 1

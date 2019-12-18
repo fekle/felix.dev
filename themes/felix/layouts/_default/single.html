@@ -2,6 +2,21 @@
     <main>
         <article title="{{ .Page.Title }}">
             <header class="hidden">{{ .Page.Title }}</header>
+
+            {{ if .Page.Params.toc }}
+                <aside class="toc-wrapper" id="toc">
+                    <a class="toc-open" href="#toc">
+                        <div>
+                            ToC
+                        </div>
+                    </a>
+                    <div class="toc">
+                        <a class="toc-close" href="#">✕</a>
+                        {{ .TableOfContents }}
+                    </div>
+                </aside>
+            {{ end }}
+
             <p>
                 {{ .Content }}
             </p>

@@ -380,6 +380,62 @@ div#content {
   }
 }
 
+.toc-visible {
+  div.toc {
+    @apply block leading-tight;
+
+    & > nav {
+      li {
+        @apply text-sm;
+
+        &:before {
+          @apply hidden;
+        }
+
+        &:after {
+          @apply w-32;
+        }
+      }
+    }
+  }
+
+  a.toc-open {
+    @apply hidden;
+  }
+}
+
+aside.toc-wrapper {
+  @apply rounded-lg bg-dark-2 m-4 py-2 px-5 float-right z-10 relative;
+
+  div.toc {
+    @apply hidden;
+  }
+
+  &:target {
+    @apply toc-visible;
+  }
+
+  @screen sm {
+    @apply toc-visible;
+  }
+
+  .toc-open {
+    @apply block p-2 -m-4;
+
+    div {
+      @apply block p-1;
+    }
+  }
+
+  .toc-close {
+    @apply relative float-right z-20;
+
+    @screen sm {
+      @apply hidden;
+    }
+  }
+}
+
 // github corner (https://github.com/tholman/github-corners)
 a.github-corner {
   &:hover .octo-arm {
@@ -418,6 +474,7 @@ a.github-corner {
     &:hover .octo-arm {
       animation: none;
     }
+
     & .octo-arm {
       animation: octocat-wave 560ms ease-in-out;
     }

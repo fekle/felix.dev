@@ -1,0 +1,437 @@
+$col_primary: theme("colors.primary");
+$col_secondary: theme("colors.secondary");
+
+html {
+  @apply bg-black text-white antialiased font-mono font-normal leading-normal;
+
+  // scrollbar styles scrollbar-color: theme("colors.dark-4") theme("colors.dark-2"); scrollbar-width: thin; scrollbar-height: thin;
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply rounded-lg bg-dark-2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-dark-4;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-6;
+  }
+}
+
+body {
+  @apply min-h-screen h-full flex flex-col items-stretch justify-center relative bg-dark-1;
+}
+
+div#header_container {
+  @apply flex-initial pt-0 pb-12 mb-4 bg-no-repeat bg-cover bg-left-bottom;
+
+  background-image: inline("./res/header_bg.svg");
+
+  @screen sm {
+    @apply pb-16;
+  }
+
+  @screen md {
+    @apply pb-20;
+  }
+
+  @screen lg {
+    @apply pb-24;
+  }
+
+  @screen xl {
+    @apply pb-32;
+  }
+
+  #header-content {
+    @apply px-4 w-full h-auto text-grey-400;
+
+    #header-title {
+      @apply pt-0 text-center;
+
+      @screen sm {
+        @apply pt-1;
+      }
+
+      @screen md {
+        @apply pt-2;
+      }
+
+      @screen lg {
+        @apply pt-3;
+      }
+
+      @screen xl {
+        @apply pt-4;
+      }
+
+      & > h1 {
+        @apply text-5xl px-2 font-bold text-primary;
+      }
+    }
+  }
+}
+
+div#footer_container {
+  @apply flex-initial pt-8 pb-8 mt-4 bg-no-repeat bg-cover bg-right-top;
+
+  background-image: inline("./res/footer_bg.svg");
+
+  @screen sm {
+    @apply pt-8;
+  }
+
+  @screen md {
+    @apply pt-12;
+  }
+
+  @screen lg {
+    @apply pt-16;
+  }
+
+  @screen xl {
+    @apply pt-20;
+  }
+
+  #footer-content {
+    @apply p-4 w-full h-auto text-grey-600 font-bold text-right;
+  }
+}
+
+div#content_container {
+  @apply flex-grow px-4 py-0;
+}
+
+div#content {
+  h1:before,
+  h2:before,
+  h3:before,
+  h4:before,
+  h5:before,
+  h6:before {
+    @apply opacity-50;
+  }
+
+  h1 {
+    @apply text-2xl mt-6 mb-4;
+
+    &:before {
+      content: "# ";
+    }
+  }
+
+  h2 {
+    @apply text-xl mt-4 mb-2;
+
+    &:before {
+      content: "## ";
+    }
+  }
+
+  h3 {
+    @apply text-lg mt-2 mb-1;
+
+    &:before {
+      content: "### ";
+    }
+  }
+
+  h4 {
+    @apply font-bold;
+
+    &:before {
+      content: "#### ";
+    }
+  }
+
+  h5 {
+    @apply font-bold;
+
+    &:before {
+      content: "##### ";
+    }
+  }
+
+  h6 {
+    @apply font-bold;
+
+    &:before {
+      content: "###### ";
+    }
+  }
+
+  b,
+  strong {
+    @apply font-semibold;
+  }
+
+  hr {
+    @apply my-8 border-dashed border-2 border-grey-700;
+  }
+
+  ol,
+  ul {
+    & > li {
+      @apply relative pl-6 my-1;
+
+      text-indent: -0.5em;
+
+      &:before {
+        content: "";
+
+        @apply bg-secondary absolute z-0;
+
+        left: 0;
+        top: 0;
+        bottom: -0.5em;
+
+        width: 0.25em;
+      }
+
+      &:first-child:before {
+        @apply rounded-t-lg;
+        top: 0.6em;
+      }
+
+      &:last-child:before {
+        @apply rounded-b-lg;
+        top: 0;
+        height: 0.6em;
+      }
+
+      &:after {
+        content: "";
+
+        @apply absolute z-10;
+
+        left: -0.13em;
+        top: 0.45em;
+
+        height: 0.5em;
+        width: 0.5em;
+
+        background-image: inline("./res/list_bullet.svg");
+      }
+
+      & > ol,
+      & > ul {
+        & > li {
+          @apply ml-1;
+        }
+      }
+    }
+  }
+
+  p {
+    @apply font-normal leading-normal border-collapse mt-2 mb-4;
+
+    & > img {
+      @apply my-8;
+    }
+  }
+
+  table {
+    @apply block w-auto p-0 table-auto my-auto bg-dark-2 rounded-lg my-4 border-2 border-dark-3 overflow-x-auto whitespace-no-wrap;
+
+    & > thead,
+    & > tbody {
+      & > tr {
+        & > th,
+        & > td {
+          @apply px-3 py-1;
+        }
+      }
+    }
+
+    & > tbody > tr {
+      &:nth-child(even) {
+        @apply bg-dark-3;
+      }
+    }
+
+    & > thead {
+      & > tr {
+        & > th {
+          @apply font-bold bg-dark-4;
+        }
+      }
+    }
+  }
+
+  .highlight > .chroma {
+    @apply block my-4 bg-dark-2 border-2 border-dark-3 rounded-lg overflow-x-auto;
+
+    & > .lntable {
+      @apply table-auto;
+    }
+
+    pre,
+    code {
+      @apply bg-transparent whitespace-no-wrap whitespace-pre;
+    }
+  }
+
+  a {
+    @apply text-blue-100;
+  }
+
+  blockquote {
+    @apply pl-4 mb-4 relative rounded-r italic;
+
+    &:before {
+      content: "";
+      @apply bg-secondary absolute z-0 inset-y-0 rounded-lg;
+
+      width: 0.25em;
+      left: 0;
+    }
+  }
+
+  section.section {
+    @apply my-8;
+  }
+
+  // timeline
+
+  div.timeline {
+    @apply w-full h-auto mt-2;
+
+    & > ol,
+    & > ul {
+      & > li {
+        @apply relative pb-2 pl-6;
+
+        &:before {
+          width: 0.5em;
+        }
+
+        &:after {
+          @apply hidden;
+        }
+
+        // round timeline at the last item
+
+        &:first-child:before {
+          @apply rounded-t-lg;
+        }
+
+        &:last-child:before {
+          @apply bg-transparent w-2;
+          bottom: -0.5em;
+          height: auto;
+          background-image: linear-gradient(to top, transparent, $col_secondary 1.75em, $col_secondary);
+        }
+
+        // the title of a timeline item is marked with ** in markdown
+
+        & > strong {
+          @apply inline-block text-grey-900 relative font-bold rounded-lg bg-primary py-1 pl-8 pr-2 mb-2 -ml-6;
+
+          // add a bullet inside the tiemeline
+
+          &:after {
+            content: "";
+
+            @apply absolute z-10;
+
+            left: 0.4em;
+            top: 50%;
+
+            height: 0.7em;
+            width: 0.7em;
+            margin-top: -0.35em;
+
+            background-image: inline("./res/timeline_bullet.svg");
+          }
+        }
+
+        // list items in the child are displayed as small items on the timeline
+
+        & > ul,
+        & > ol {
+          list-style-type: none;
+
+          & > li {
+            @apply relative mb-1 pl-2;
+
+            // add a small link to the timeline on the left
+
+            &:before {
+              @apply rounded-r-lg;
+              background-image: none;
+              left: -1.5em;
+              top: 0.45em;
+              height: 0.5em;
+              width: 1em;
+            }
+
+            &:after {
+              @apply hidden;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.toc-visible {
+  div.toc {
+    @apply block leading-tight;
+
+    & > nav {
+      li {
+        @apply text-sm;
+
+        &:before {
+          @apply hidden;
+        }
+
+        &:after {
+          @apply w-32;
+        }
+      }
+    }
+  }
+
+  a.toc-open {
+    @apply hidden;
+  }
+}
+
+aside.toc-wrapper {
+  @apply rounded-lg bg-dark-2 m-4 py-2 px-5 float-right z-10 relative;
+
+  div.toc {
+    @apply hidden;
+  }
+
+  &:target {
+    @apply toc-visible;
+  }
+
+  @screen sm {
+    @apply toc-visible;
+  }
+
+  .toc-open {
+    @apply block p-2 -m-4;
+
+    div {
+      @apply block p-1;
+    }
+  }
+
+  .toc-close {
+    @apply relative float-right z-20;
+
+    @screen sm {
+      @apply hidden;
+    }
+  }
+}

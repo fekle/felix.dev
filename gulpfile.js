@@ -6,6 +6,9 @@ const gulp = require('gulp');
 
 const { exec, forEachFile, withAllFiles, execAllFilesStdin } = require('./resources/gulp/util');
 
+// add node_modules/.bin to path
+process.env.PATH = `${process.env.PATH}:${__dirname}/node_modules/.bin`;
+
 // variables
 const DOCKER_DEV_TAG = 'docker.felix.dev/felix/felix.dev/web:dev';
 
@@ -37,86 +40,22 @@ gulp.task('hugo:dev', () => exec('env NODE_ENV=development hugo --gc --cleanDest
 gulp.task('hugo:prod', () => exec('env NODE_ENV=production hugo --gc --cleanDestinationDir --minify'));
 
 gulp.task('favicons:convert', () =>
-  gulp
-    .src(p.join(paths.theme, 'resources/favicon.svg'))
-    .pipe(
-      require('gulp-favicons')({
-        path: '/img/favicons',
-        appName: 'felix.dev',
-        appShortName: 'felix.dev',
-        appDescription: "Felix Klein's Homepage",
-        developerName: 'Felix Klein',
-        developerURL: 'https://felix.dev',
-        dir: 'auto',
-        lang: 'en-US',
-        background: '#111111',
-        theme_color: '#ffa86a',
-        appleStatusBarStyle: 'black-translucent',
-        display: 'standalone',
-        orientation: 'any',
-        scope: '/',
-        start_url: '/',
-        version: '1.0',
-        icons: {
-          android: {
-            background: 'rgba(0,0,0,0)',
-          },
-          appleIcon: {
-            background: 'rgba(0,0,0,0)',
-          },
-          appleStartup: {
-            background: 'rgba(0,0,0,0)',
-          },
-          coast: {
-            background: 'rgba(0,0,0,0)',
-          },
-          favicons: {
-            background: 'rgba(0,0,0,0)',
-          },
-          firefox: {
-            background: 'rgba(0,0,0,0)',
-          },
-          windows: {
-            background: 'rgba(0,0,0,0)',
-          },
-          yandex: {
-            background: 'rgba(0,0,0,0)',
-          },
-        },
-        html: 'index.html',
-        pipeHTML: true,
-        replace: true,
-      }),
-    )
-    .pipe(gulp.dest(p.join(paths.theme, 'static/img/favicons'))),
-);
-gulp.task('favicons:compress', () =>
-  gulp
-    .src(p.join(paths.theme, 'static/img/favicons/**/*.{png,svg,jpg,jpeg,gif,ico,webp}'))
-    .pipe(imagemin())
-    .pipe(gulp.dest(p.join(paths.theme, 'static/img/favicons'))),
-);
-
-gulp.task('favicons:move-meta-html', cb =>
-  fs.rename(
-    p.join(paths.theme, 'static/img/favicons/index.html'),
-    p.join(paths.theme, 'layouts/partials/favicons.html'),
-    cb,
+  require('./resources/gulp/favicon-gen')(
+    p.join(paths.theme, 'resources/favicon.svg'),
+    p.join(paths.theme, 'static/img/favicons'),
   ),
 );
 gulp.task('favicons:copy-legacy', cb =>
-  fs.copyFile(p.join(paths.theme, 'static/img/favicons/favicon.ico'), p.join(paths.theme, 'static/favicon.ico'), cb),
+  fs.copyFile(p.join(paths.theme, 'static/img/favicons/favicon-32.png'), p.join(paths.theme, 'static/favicon.ico'), cb),
 );
-gulp.task(
-  'favicons',
-  gulp.series(
-    'favicons:convert',
-    'favicons:compress',
-    gulp.parallel('favicons:move-meta-html', 'favicons:copy-legacy'),
-  ),
+gulp.task('favicons', gulp.series('favicons:convert', 'favicons:copy-legacy'));
+
+gulp.task('postcss', () => exec('cd themes/felix && postcss -o assets/css/main.css resources/css/main.pcss'));
+gulp.task('postcss:watch', () =>
+  exec('cd themes/felix && postcss -w --verbose -o assets/css/main.css resources/css/main.pcss'),
 );
 
-gulp.task('postcss', () =>
+gulp.task('postcss-post', () =>
   gulp
     .src(p.join(paths.dist, '**/*.css'))
     .pipe(
@@ -159,8 +98,13 @@ gulp.task('fmt', () => exec("prettier --color --write './**/*.{js,ts,jsx,tsx,jso
 gulp.task('docker:build', () => exec(`docker build --pull -t ${DOCKER_DEV_TAG} .`));
 gulp.task('docker:push', () => exec(`docker push ${DOCKER_DEV_TAG}`));
 
-gulp.task('build:dev', gulp.series('clean', 'hugo:dev'));
-gulp.task('build:prod', gulp.series('clean', 'hugo:prod', gulp.parallel('postcss', 'imagemin'), 'compress'));
+gulp.task('watch', gulp.parallel('hugo:watch', 'postcss:watch'));
+
+gulp.task('build:dev', gulp.series('clean', 'postcss', 'hugo:dev'));
+gulp.task(
+  'build:prod',
+  gulp.series('clean', 'postcss', 'hugo:prod', gulp.parallel('postcss-post', 'imagemin'), 'compress'),
+);
 
 gulp.task('build', gulp.series('build:prod'));
 gulp.task('default', gulp.series('build'));

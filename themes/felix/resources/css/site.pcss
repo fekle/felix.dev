@@ -25,6 +25,7 @@ html {
 
 body {
   @apply min-h-screen h-full flex flex-col items-stretch justify-center relative bg-dark-1;
+  transition: color 0.2s;
 }
 
 div#header_container {
@@ -48,17 +49,67 @@ div#header_container {
     @apply pb-32;
   }
 
-  #header-content {
+  & > #header-content {
     @apply px-4 w-full h-auto text-grey-400;
 
-    #header-title {
+    & > nav {
+      @apply p-4 mt-0 mb-1 w-full;
+
+      & > div.menu {
+        @apply mx-auto flex flex-col flex-wrap items-center;
+
+        @screen sm {
+          @apply flex-row;
+        }
+
+        & > ul.menu-group {
+          @apply flex;
+
+          &.menu-title {
+            @apply flex-initial font-extrabold mb-2;
+
+            @screen sm {
+              @apply justify-start;
+            }
+
+            & > li {
+              & > a {
+                @apply no-underline;
+
+                & > span {
+                  @apply text-2xl pl-2;
+                }
+              }
+            }
+          }
+
+          &.menu-items {
+            @apply flex-grow;
+
+            @screen sm {
+              @apply justify-end;
+            }
+
+            & > li {
+              @apply flex-initial py-2 px-4 text-grey-600 cursor-pointer color-trans;
+
+              &:hover {
+                @apply text-grey-500;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    & > #header-title {
       @apply pt-0 text-center;
 
       @screen sm {
         @apply pt-1;
       }
 
-      @screen md {
+      @screen sm {
         @apply pt-2;
       }
 
@@ -277,7 +328,10 @@ div#content {
   }
 
   a {
-    @apply text-blue-100;
+    @apply color-trans text-blue-200;
+    &:hover {
+      @apply text-blue-100;
+    }
   }
 
   blockquote {
@@ -434,4 +488,8 @@ aside.toc-wrapper {
       @apply hidden;
     }
   }
+}
+
+.color-trans {
+  transition: color 0.2s ease-in-out;
 }

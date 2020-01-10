@@ -8,7 +8,7 @@ publishDir = "dist"
     languageName = "English"
     title = "Felix Klein"
     keywords = ""
-    copyright = "(c) 2019 Felix Klein"
+    copyright = "(c) 2020 Felix Klein"
     menuMore = "Show more"
     readMore = "Read more"
 

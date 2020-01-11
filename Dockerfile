@@ -4,18 +4,19 @@ WORKDIR /tmp/hugo-build
 
 # install apt deps
 RUN apt-get -y update -qq && \
-    apt-get -y install curl gnupg zopfli parallel &&  \
+    apt-get -y install --no-install-recommends build-essential curl gnupg zopfli parallel ca-certificates apt-transport-https gnupg lsb-release &&  \
     apt-get -y clean -q
 
 # install node and yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
     apt-get -y update -qq && \
-    apt-get -y install yarn && \
+    apt-get -y install --no-install-recommends yarn nodejs && \
     apt-get -y clean -q
 
 # install hugo (https://github.com/gohugoio/hugo/releases)
-ARG HUGO_VERSION=0.60.1
+ARG HUGO_VERSION=0.62.2
 RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
     dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 

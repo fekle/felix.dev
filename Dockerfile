@@ -8,11 +8,12 @@ RUN apt-get -y update -qq && \
     apt-get -y clean -q
 
 # install node and yarn
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+ARG NODE_VERSION=12
+RUN curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
     apt-get -y update -qq && \
-    apt-get -y install --no-install-recommends yarn nodejs && \
+    apt-get -y install --no-install-recommends nodejs yarn && \
     apt-get -y clean -q
 
 # install hugo (https://github.com/gohugoio/hugo/releases)

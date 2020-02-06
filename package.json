@@ -9,6 +9,7 @@
     "@fullhuman/postcss-purgecss": "^2.0.6",
     "autoprefixer": "^9.7.4",
     "cssnano": "^4.1.10",
+    "gifsicle": "^5.0.0",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-favicons": "^2.4.0",

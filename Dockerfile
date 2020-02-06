@@ -4,7 +4,7 @@ WORKDIR /tmp/hugo-build
 
 # install apt deps
 RUN apt-get -y update -qq && \
-    apt-get -y install --no-install-recommends build-essential curl gnupg zopfli parallel ca-certificates apt-transport-https gnupg lsb-release &&  \
+    apt-get -y install --no-install-recommends build-essential curl gnupg zopfli parallel ca-certificates apt-transport-https gnupg lsb-release dh-autoreconf &&  \
     apt-get -y clean -q
 
 # install node and yarn

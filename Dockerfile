@@ -17,7 +17,7 @@ RUN curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - && \
     apt-get -y clean -q
 
 # install hugo (https://github.com/gohugoio/hugo/releases)
-ARG HUGO_VERSION=0.62.2
+ARG HUGO_VERSION=0.64.1
 RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
     dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 

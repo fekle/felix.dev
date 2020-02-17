@@ -30,7 +30,7 @@
     "prettier": "^1.19.1",
     "purgecss": "^2.0.6",
     "serve": "^11.3.0",
-    "sharp": "^0.24.0",
+    "sharp": "^0.24.1",
     "tailwindcss": "^1.2.0"
   }
 }

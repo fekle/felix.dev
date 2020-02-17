@@ -3,7 +3,7 @@ FROM ubuntu:18.04 AS base
 WORKDIR /tmp/hugo-build
 
 # install apt deps
-RUN apt-get -y update -qq && \
+RUN apt-get -y update -q && \
     apt-get -y install --no-install-recommends build-essential curl gnupg zopfli parallel ca-certificates apt-transport-https gnupg lsb-release dh-autoreconf &&  \
     apt-get -y clean -q
 
@@ -12,7 +12,7 @@ ARG NODE_VERSION=12
 RUN curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
-    apt-get -y update -qq && \
+    apt-get -y update -q && \
     apt-get -y install --no-install-recommends nodejs yarn && \
     apt-get -y clean -q
 
@@ -33,7 +33,7 @@ COPY . /tmp/hugo-build/
 RUN yarn exec gulp build:prod
 
 # web image
-FROM nginx:alpine
+FROM nginx:latest
 
 # ports
 EXPOSE 80

@@ -3,8 +3,8 @@ FROM ubuntu:18.04 AS base
 WORKDIR /tmp/hugo-build
 
 # install apt deps
-RUN apt-get -y update -qq && \
-    apt-get -y install --no-install-recommends build-essential curl gnupg zopfli parallel ca-certificates apt-transport-https gnupg lsb-release &&  \
+RUN apt-get -y update -q && \
+    apt-get -y install --no-install-recommends build-essential curl gnupg zopfli parallel ca-certificates apt-transport-https gnupg lsb-release dh-autoreconf &&  \
     apt-get -y clean -q
 
 # install node and yarn
@@ -12,12 +12,12 @@ ARG NODE_VERSION=12
 RUN curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
-    apt-get -y update -qq && \
+    apt-get -y update -q && \
     apt-get -y install --no-install-recommends nodejs yarn && \
     apt-get -y clean -q
 
 # install hugo (https://github.com/gohugoio/hugo/releases)
-ARG HUGO_VERSION=0.62.2
+ARG HUGO_VERSION=0.64.1
 RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
     dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 
@@ -33,7 +33,7 @@ COPY . /tmp/hugo-build/
 RUN yarn exec gulp build:prod
 
 # web image
-FROM nginx:alpine
+FROM nginx:latest
 
 # ports
 EXPOSE 80

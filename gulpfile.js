@@ -23,11 +23,21 @@ const paths = {
 const imagemin = () =>
   require('gulp-imagemin')([
     require('imagemin-mozjpeg')({ quality: 85, progressive: true }),
-    require('imagemin-pngquant')({ quality: [0.85, 1] }),
+    require('imagemin-pngquant')({ quality: [0.85, 0.95] }),
     require('imagemin-optipng')({ optimizationLevel: 3 }),
+    require('imagemin-zopfli')({ transparent: true, more: true }),
     require('imagemin-gifsicle')({ interlaced: true }),
     require('imagemin-svgo')(),
   ]);
+gulp.task('imagemin', () =>
+  gulp
+    .src([
+      p.join('.', '{static,resources}/**/*.{png,svg,jpg,jpeg,gif,ico,webp}'),
+      p.join(paths.theme, '{static,resources}/**/*.{png,svg,jpg,jpeg,gif,ico,webp}'),
+    ])
+    .pipe(imagemin())
+    .pipe(gulp.dest(paths.dist)),
+);
 
 gulp.task('clean', () => exec(`rm -rf '${paths.dist}'`));
 
@@ -48,7 +58,7 @@ gulp.task('favicons:convert', () =>
 gulp.task('favicons:copy-legacy', cb =>
   fs.copyFile(p.join(paths.theme, 'static/img/favicons/favicon-32.png'), p.join(paths.theme, 'static/favicon.ico'), cb),
 );
-gulp.task('favicons', gulp.series('favicons:convert', 'favicons:copy-legacy'));
+gulp.task('favicons', gulp.series('favicons:convert', 'favicons:copy-legacy', 'imagemin'));
 
 gulp.task('postcss', () => exec('cd themes/felix && postcss -o assets/css/main.css resources/css/main.pcss'));
 gulp.task('postcss:watch', () =>
@@ -82,13 +92,6 @@ gulp.task('postcss-post', () =>
     .pipe(gulp.dest(paths.dist)),
 );
 
-gulp.task('imagemin', () =>
-  gulp
-    .src(p.join(paths.dist, '**/*.{png,svg,jpg,jpeg,gif,ico,webp}'))
-    .pipe(imagemin())
-    .pipe(gulp.dest(paths.dist)),
-);
-
 gulp.task('compress', () =>
   gulp.src([p.join(paths.dist, '**/*'), '!**/*.gz']).pipe(execAllFilesStdin("parallel -0 'zopfli --gzip --i5 {}'")),
 );
@@ -101,10 +104,7 @@ gulp.task('docker:push', () => exec(`docker push ${DOCKER_DEV_TAG}`));
 gulp.task('watch', gulp.parallel('hugo:watch', 'postcss:watch'));
 
 gulp.task('build:dev', gulp.series('clean', 'postcss', 'hugo:dev'));
-gulp.task(
-  'build:prod',
-  gulp.series('clean', 'postcss', 'hugo:prod', gulp.parallel('postcss-post', 'imagemin'), 'compress'),
-);
+gulp.task('build:prod', gulp.series('clean', 'postcss', 'hugo:prod', 'postcss-post', 'compress'));
 
 gulp.task('build', gulp.series('build:prod'));
 gulp.task('default', gulp.series('build'));

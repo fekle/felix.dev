@@ -5,31 +5,35 @@ variables:
   IMAGE_CI_REF: ${IMAGE_NAME}:$CI_COMMIT_SHA-$CI_PIPELINE_ID
   IMAGE_DEV_REF: ${IMAGE_NAME}:dev
   IMAGE_PROD_REF: ${IMAGE_NAME}:latest
-  DEV_URL: https://test.felix.dev/
-  PROD_URL: https://felix.dev/
 
 stages:
   - build
   - deploy
 
-before_script:
-  - docker login -u gitlab-ci-token --password-stdin "${CI_REGISTRY}" <<<"${CI_JOB_TOKEN}" > /dev/null 2>&1
+.docker_setup: &docker_setup
+  before_script:
+    - docker login -u gitlab-ci-token --password-stdin "${CI_REGISTRY}" <<<"${CI_JOB_TOKEN}" > /dev/null 2>&1
+    - docker buildx create --use --name ci --platform linux/arm64,linux/amd64
 
 build-dev:
+  <<: *docker_setup
   stage: build
   script:
-    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_DEV_REF}\",push=true ${BUILD_OPTS}
+    - docker buildx build --tag "${IMAGE_DEV_REF}" --tag "${IMAGE_CI_REF}" --push --pull --platform linux/arm64,linux/amd64 ${BUILD_OPTS} .
   only:
     - dev
 
 build-prod:
+  <<: *docker_setup
   stage: build
   script:
-    - buildctl build --frontend=dockerfile.v0 --local context=. --local dockerfile=. --output type=image,\"name=${IMAGE_CI_REF},${IMAGE_PROD_REF}\",push=true ${BUILD_OPTS}
+    - docker buildx build --tag "${IMAGE_PROD_REF}" --tag "${IMAGE_CI_REF}" --push --pull --platform linux/arm64,linux/amd64 ${BUILD_OPTS} .
   only:
     - master
 
 deploy-test:
+  variables:
+    GIT_STRATEGY: none
   stage: deploy
   script:
     - echo "${IMAGE_CI_REF}"
@@ -38,6 +42,8 @@ deploy-test:
     - dev
 
 deploy-prod:
+  variables:
+    GIT_STRATEGY: none
   stage: deploy
   script:
     - echo "${IMAGE_CI_REF}"

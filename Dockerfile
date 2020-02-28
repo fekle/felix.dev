@@ -1,5 +1,5 @@
 # base image
-FROM ubuntu:18.04 AS base
+FROM --platform=linux/amd64 ubuntu:18.04 AS build-base
 WORKDIR /tmp/hugo-build
 
 # install apt deps
@@ -17,12 +17,12 @@ RUN curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - && \
     apt-get -y clean -q
 
 # install hugo (https://github.com/gohugoio/hugo/releases)
-ARG HUGO_VERSION=0.64.1
-RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" && \
+ARG HUGO_VERSION=0.65.3
+RUN curl -Lso /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-$(arch | sed 's/x86_64/64bit/g' | sed 's/aarch64/ARM64/').deb" && \
     dpkg -i /tmp/hugo.deb && rm -rf /tmp/hugo.deb
 
 # build image
-FROM base AS build
+FROM build-base AS build
 
 # install yarn dependencies
 COPY package.json yarn.lock /tmp/hugo-build/

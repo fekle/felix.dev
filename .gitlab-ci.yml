@@ -5,6 +5,7 @@ variables:
   IMAGE_CI_REF: ${IMAGE_NAME}:$CI_COMMIT_SHA-$CI_PIPELINE_ID
   IMAGE_DEV_REF: ${IMAGE_NAME}:dev
   IMAGE_PROD_REF: ${IMAGE_NAME}:latest
+  IMAGE_CACHE_REF: ${IMAGE_NAME}:cache
 
 stages:
   - build
@@ -18,16 +19,20 @@ stages:
 build-dev:
   <<: *docker_setup
   stage: build
-  script:
-    - docker buildx build --tag "${IMAGE_DEV_REF}" --tag "${IMAGE_CI_REF}" --push --pull --platform linux/arm64,linux/amd64 ${BUILD_OPTS} .
+  script: |
+    docker buildx build --tag "${IMAGE_PROD_REF}" --tag "${IMAGE_CI_REF}" --platform linux/arm64,linux/amd64 \
+      --cache-from "${IMAGE_CACHE_REF}" --cache-to "${IMAGE_CACHE_REF}" \
+      --push --pull .
   only:
     - dev
 
 build-prod:
   <<: *docker_setup
   stage: build
-  script:
-    - docker buildx build --tag "${IMAGE_PROD_REF}" --tag "${IMAGE_CI_REF}" --push --pull --platform linux/arm64,linux/amd64 ${BUILD_OPTS} .
+  script: |
+    docker buildx build --tag "${IMAGE_DEV_REF}" --tag "${IMAGE_CI_REF}" --platform linux/arm64,linux/amd64 \
+      --cache-from "${IMAGE_CACHE_REF}" --cache-to "${IMAGE_CACHE_REF}" \
+      --push --pull .
   only:
     - master
 

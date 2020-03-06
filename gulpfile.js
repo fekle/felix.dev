@@ -9,8 +9,11 @@ const { exec, forEachFile, withAllFiles, execAllFilesStdin } = require('./resour
 // add node_modules/.bin to path
 process.env.PATH = `${process.env.PATH}:${__dirname}/node_modules/.bin`;
 
-// variables
-const DOCKER_DEV_TAG = 'docker.felix.dev/felix/felix.dev/web:dev';
+// docker tags
+const IMAGE_NAME = `docker.felix.dev/felix/felix.dev/web`;
+const IMAGE_DEV_REF = `${IMAGE_NAME}:dev`;
+const IMAGE_PROD_REF = `${IMAGE_NAME}:latest`;
+const IMAGE_CACHE_REF = `${IMAGE_NAME}:cache`;
 
 // go to correct dir
 process.chdir(__dirname);
@@ -98,8 +101,11 @@ gulp.task('compress', () =>
 
 gulp.task('fmt', () => exec("prettier --color --write './**/*.{js,ts,jsx,tsx,json,css,scss,pcss,yml,yaml}'"));
 
-gulp.task('docker:build', () => exec(`docker build --pull -t ${DOCKER_DEV_TAG} .`));
-gulp.task('docker:push', () => exec(`docker push ${DOCKER_DEV_TAG}`));
+gulp.task('docker', () =>
+  exec(
+    `docker buildx build --tag "${IMAGE_DEV_REF}" --tag "${IMAGE_PROD_REF}" --platform linux/arm64,linux/amd64 --cache-from "${IMAGE_CACHE_REF}" --cache-to "${IMAGE_CACHE_REF}" --push --pull .`,
+  ),
+);
 
 gulp.task('watch', gulp.parallel('hugo:watch', 'postcss:watch'));
 
